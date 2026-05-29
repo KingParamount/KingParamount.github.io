@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — Canal Cruiser Log</title>
+  <meta name="description" content="Privacy policy for Canal Cruiser Log, a canal boat journey tracking app by King Paramount Canal Adventures.">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #ffffff;
+      --fg: #1a1a1a;
+      --muted: #555;
+      --rule: #e2e2e2;
+      --accent: #0a6b3d;
+      --panel: #f4f4f4;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121417;
+        --fg: #e8e8e8;
+        --muted: #aaa;
+        --rule: #2c2f33;
+        --accent: #5dd09b;
+        --panel: #1f2227;
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg); }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 17px;
+      line-height: 1.6;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 4rem;
+    }
+    h1 { font-size: 1.85rem; margin: 0 0 0.5rem; line-height: 1.25; }
+    h2 {
+      font-size: 1.3rem;
+      margin-top: 2.25rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--rule);
+    }
+    h3 { font-size: 1.05rem; margin-top: 1.5rem; color: var(--accent); }
+    p, li { margin: 0.6rem 0; }
+    a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 2px;
+    }
+    code {
+      background: var(--panel);
+      padding: 0.1rem 0.35rem;
+      border-radius: 4px;
+      font-size: 0.92em;
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+    header.meta {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    header.meta strong { color: var(--fg); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.97rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid var(--rule);
+      vertical-align: top;
+    }
+    th { background: var(--panel); font-weight: 600; }
+    .short-version {
+      background: var(--panel);
+      padding: 0.85rem 1rem;
+      border-left: 3px solid var(--accent);
+      border-radius: 4px;
+      margin: 1rem 0;
+    }
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--rule);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    @media print {
+      body { font-size: 11pt; max-width: none; padding: 1rem; }
+      a { color: inherit; text-decoration: none; }
+      h2 { page-break-after: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Privacy Policy — Canal Cruiser Log</h1>
+
+  <header class="meta">
+    <strong>Publisher:</strong> King Paramount Canal Adventures<br>
+    <strong>Effective date:</strong> 29 May 2026<br>
+    <strong>Contact:</strong> <a href="mailto:ccwakely@gmail.com">ccwakely@gmail.com</a>
+  </header>
+
+  <h2>Overview</h2>
+  <p>Canal Cruiser Log is a canal boat journey tracker. We take your privacy seriously. This policy explains what data the app collects, how it is used, and with whom it is shared.</p>
+  <p class="short-version"><strong>The short version:</strong> almost all your data stays on your device. We do not operate servers, do not require an account, and do not sell your data to anyone.</p>
+
+  <h2>1. Data We Collect and How It Is Stored</h2>
+
+  <h3>GPS Location</h3>
+  <p>When you tap <strong>Log Position</strong>, the app reads your device's GPS coordinates (latitude, longitude, and accuracy in metres). This data is stored <strong>locally on your device</strong> in an encrypted SQLite database (<code>cruising-log.db</code>) inside the app's private storage. It is never transmitted to King Paramount Canal Adventures or any advertising network.</p>
+
+  <h3>Photographs</h3>
+  <p>If you choose to attach a photo to a log entry, the image is stored <strong>locally on your device</strong> in the app's private documents folder. Photos are never uploaded to any server operated by King Paramount Canal Adventures.</p>
+
+  <h3>Notes</h3>
+  <p>Any text notes you type are stored <strong>locally on your device</strong> in the same SQLite database. They are never transmitted.</p>
+
+  <h3>Boat Details</h3>
+  <p>The boat name and Canal &amp; River Trust (CRT) licence number you enter are stored <strong>locally on your device</strong>. They are never transmitted to King Paramount Canal Adventures.</p>
+
+  <h3>App Settings</h3>
+  <p>Your notification preferences and active boat selection are stored using your device's local key-value store (AsyncStorage). They are never transmitted.</p>
+
+  <h2>2. Third-Party Services</h2>
+  <p>Canal Cruiser Log communicates with two external services. Neither is operated by King Paramount Canal Adventures.</p>
+
+  <h3>Canal &amp; River Trust (CRT) ArcGIS API</h3>
+  <p>When you log a position, the app sends your GPS coordinates (latitude and longitude) to the Canal &amp; River Trust's publicly available ArcGIS FeatureServer in order to look up the name of the canal or waterway you are on. This lookup happens automatically in the background after a log entry is saved, and can also be triggered manually from the log detail screen.</p>
+  <ul>
+    <li><strong>Data sent:</strong> Latitude and longitude only (no boat name, photos, or notes)</li>
+    <li><strong>Who receives it:</strong> Canal &amp; River Trust / Esri ArcGIS</li>
+    <li><strong>CRT Privacy Policy:</strong> <a href="https://canalrivertrust.org.uk/privacy-policy">https://canalrivertrust.org.uk/privacy-policy</a></li>
+  </ul>
+  <p>You can use the app without the CRT lookup working — if it fails, you can log positions normally and the waterway name will simply not be shown.</p>
+
+  <h3>OpenFreeMap (Map Tiles)</h3>
+  <p>The app displays maps using tiles provided by OpenFreeMap. When you view a map screen or export a PDF, your device fetches tile images from OpenFreeMap's servers. These requests include standard network information such as your device's IP address and the tile coordinates being viewed, but do not include any data from your log entries.</p>
+  <ul>
+    <li><strong>Data sent:</strong> Tile coordinates and standard HTTP request headers (including IP address)</li>
+    <li><strong>Who receives it:</strong> OpenFreeMap / Protomaps</li>
+    <li><strong>OpenFreeMap Privacy Policy:</strong> <a href="https://openfreemap.org">https://openfreemap.org</a></li>
+  </ul>
+
+  <h2>3. Advertising</h2>
+  <p>The free version of Canal Cruiser Log is supported by advertisements served by <strong>Google AdMob</strong>, Google's mobile advertising network. The premium (ad-free) upgrade does not initialise the advertising SDK and contains no advertising.</p>
+  <p>When the app shows an advertisement, the Google AdMob SDK may collect:</p>
+  <ul>
+    <li>Your advertising identifier (Android Advertising ID or Apple IDFA, depending on your device)</li>
+    <li>Your IP address, which Google uses to determine your approximate location for ad delivery</li>
+    <li>Standard device information (device model, operating system version, language)</li>
+    <li>Ad interaction data (which ads were shown and whether they were clicked) used for frequency capping, reporting, and fraud prevention</li>
+  </ul>
+  <p>The app requests <strong>non-personalised ads</strong> by default. This means ads are not targeted using your individual browsing history or behavioural profile.</p>
+  <p>If you are located in the European Economic Area (EEA), the United Kingdom, or Switzerland, the app will show you a consent message on first launch (powered by Google's User Messaging Platform) asking whether you accept the use of advertising identifiers for ad delivery. Outside these regions, no consent dialog is shown.</p>
+  <p>You can withdraw or change your consent at any time by adjusting the advertising identifier settings on your device (under your device's privacy or advertising settings), or by reinstalling the app to be re-prompted.</p>
+  <p>For more information on how Google uses data collected through AdMob, see:</p>
+  <ul>
+    <li><a href="https://policies.google.com/privacy">Google's Privacy Policy</a></li>
+    <li><a href="https://policies.google.com/technologies/partner-sites">How Google uses information from sites or apps that use our services</a></li>
+  </ul>
+
+  <h2>4. Permissions</h2>
+  <p>The app requests the following device permissions:</p>
+  <table>
+    <thead>
+      <tr><th>Permission</th><th>Why it is needed</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Precise Location</strong></td><td>To record your boat's GPS position when you tap Log Position</td></tr>
+      <tr><td><strong>Camera</strong></td><td>To take a photo to attach to a log entry</td></tr>
+      <tr><td><strong>Photo Library</strong></td><td>To choose an existing photo to attach to a log entry</td></tr>
+      <tr><td><strong>Notifications</strong></td><td>To send an optional reminder if your boat has been in the same location for 14 days</td></tr>
+    </tbody>
+  </table>
+  <p>You can deny any of these permissions. The app will continue to work for the features that do not require the denied permission. Notification permission can be granted or revoked at any time in your device Settings.</p>
+
+  <h2>5. Data Retention and Deletion</h2>
+  <p>All data (log entries, photos, boat profiles, settings) is deleted automatically when you uninstall the app. You can also delete individual log entries or entire boat profiles (along with all their associated logs) from within the app at any time.</p>
+  <p>We do not hold any copies of your data.</p>
+
+  <h2>6. Children</h2>
+  <p>Canal Cruiser Log does not knowingly collect personal information from children under 13. The app does not require an account and does not transmit personal data to our servers, so it is suitable for use by all ages.</p>
+
+  <h2>7. Changes to This Policy</h2>
+  <p>If we make material changes to this policy, we will update the effective date above. Continued use of the app after a policy update constitutes acceptance of the revised policy.</p>
+
+  <h2>8. Contact</h2>
+  <p>If you have questions about this privacy policy, please contact us at:</p>
+  <p><strong><a href="mailto:ccwakely@gmail.com">ccwakely@gmail.com</a></strong><br>
+  King Paramount Canal Adventures</p>
+
+  <footer>
+    Privacy Policy for Canal Cruiser Log. Published by King Paramount Canal Adventures.
+  </footer>
+
+</body>
+</html>
