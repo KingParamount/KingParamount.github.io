@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canal Sim — Player's Guide</title>
+  <meta name="description" content="The player's guide to Canal Sim: controls, locks, wharves, bonus stars, the stages, tips and FAQ for the relaxed narrowboat handling game.">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #ffffff;
+      --fg: #1a1a1a;
+      --muted: #555;
+      --rule: #e2e2e2;
+      --accent: #1565c0;
+      --panel: #eef4fb;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1419;
+        --fg: #e8e8e8;
+        --muted: #aaa;
+        --rule: #283039;
+        --accent: #5aa9f0;
+        --panel: #18222e;
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg); }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 17px;
+      line-height: 1.6;
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 3rem 1.25rem 4rem;
+    }
+    a.home {
+      display: inline-block;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+    a.home:hover { color: var(--accent); }
+    h1 { font-size: 2rem; margin: 0 0 0.4rem; line-height: 1.15; }
+    p.lede { color: var(--muted); margin: 0 0 1.5rem; }
+    h2 {
+      font-size: 1.35rem;
+      margin-top: 2.5rem;
+      margin-bottom: 0.5rem;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--rule);
+    }
+    h3 { font-size: 1.05rem; margin: 1.4rem 0 0.25rem; color: var(--accent); }
+    p { margin: 0.6rem 0; }
+    ul, ol { margin: 0.5rem 0; padding-left: 1.4rem; }
+    li { margin: 0.35rem 0; }
+    a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 2px;
+    }
+    nav.toc {
+      background: var(--panel);
+      border-radius: 8px;
+      padding: 1.1rem 1.3rem;
+      margin: 1.5rem 0 1rem;
+    }
+    nav.toc h2 { border: 0; margin: 0 0 0.5rem; padding: 0; font-size: 1.1rem; }
+    nav.toc ol { margin: 0; padding-left: 1.3rem; }
+    nav.toc a { text-decoration: none; }
+    nav.toc a:hover { text-decoration: underline; }
+    .tip {
+      background: var(--panel);
+      border-left: 3px solid var(--accent);
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
+      margin: 1.25rem 0;
+      font-size: 0.97rem;
+    }
+    .faq-q { font-weight: 600; margin-top: 1.1rem; }
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--rule);
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+    @media print {
+      body { font-size: 11pt; max-width: none; padding: 1rem; }
+      a { color: inherit; text-decoration: none; }
+      a.home, nav.toc { display: none; }
+      h2 { border-top: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="home" href="../">&larr; All apps by King Paramount</a>
+
+  <h1>Canal Sim &mdash; Player's Guide</h1>
+  <p class="lede">Welcome aboard! Canal Sim is a relaxed, top-down narrowboat handling game. You take the tiller of a traditional canal boat and steer it gently along winding waterways &mdash; easing through bridges, working locks, mooring at wharves, and sharing the cut politely with other boaters.</p>
+  <p>Narrowboats are long, heavy, and slow to respond. This is a game about <em>finesse</em>, not speed. Take your time, read the water ahead, and bring her in gently.</p>
+
+  <nav class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#getting-started">Getting started</a></li>
+      <li><a href="#screen">The screen at a glance</a></li>
+      <li><a href="#controls">Controls</a></li>
+      <li><a href="#level">How a level works</a></li>
+      <li><a href="#meet">Things you'll meet on the canal</a></li>
+      <li><a href="#stars">Bonus stars</a></li>
+      <li><a href="#lives">Lives</a></li>
+      <li><a href="#stages">The stages</a></li>
+      <li><a href="#sound">Sound and settings</a></li>
+      <li><a href="#tips">Tips for a clean run</a></li>
+      <li><a href="#faq">Frequently asked questions</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="getting-started">1. Getting started</h2>
+  <p>Canal Sim plays in <strong>landscape</strong> orientation &mdash; hold your phone or tablet sideways. There is nothing to set up, no account to create, and no internet connection required. Just open the App and you're ready to cast off.</p>
+  <p>From the main menu, choose a <strong>stage</strong>, then pick a <strong>level</strong>. A short splash screen shows the level number and name; tap it to begin.</p>
+  <p>If you are brand new, start with the first stage, <strong>Helmsman School</strong> &mdash; it eases you in one idea at a time.</p>
+
+  <h2 id="screen">2. The screen at a glance</h2>
+  <p>The game is shown from above, looking down on your boat and the canal.</p>
+  <ul>
+    <li><strong>Your boat</strong> sits roughly in the middle of the screen; the world scrolls around it as you travel.</li>
+    <li><strong>Top row</strong> &mdash; quick controls for pausing, speeding up, and zooming.</li>
+    <li><strong>Bottom-left</strong> &mdash; the <strong>throttle</strong> (your speed control).</li>
+    <li><strong>Bottom-right</strong> &mdash; the <strong>rudder</strong> (your steering control).</li>
+    <li><strong>On-screen messages</strong> &mdash; characters and signs pop up to explain new ideas or give you instructions. Read them, then tap to dismiss.</li>
+  </ul>
+
+  <h2 id="controls">3. Controls</h2>
+  <p>Everything is done with two thumbs.</p>
+  <h3>Throttle (bottom-left)</h3>
+  <p>Slide it up to go forward, centre for neutral (drifting), and down to go astern (reverse). Remember: a narrowboat keeps moving after you ease off &mdash; there are no brakes on the water, so plan ahead.</p>
+  <h3>Rudder (bottom-right)</h3>
+  <p>Push it left or right to swing the stern and turn the bow the other way, just like a real tiller. The boat turns most effectively when you have a little way on (some forward speed). Centre the rudder to straighten up.</p>
+  <h3>Top-row buttons</h3>
+  <ul>
+    <li><strong>Pause</strong> &mdash; freezes the game so you can take a break or plan your approach.</li>
+    <li><strong>&times;2 speed</strong> &mdash; doubles the pace of time if you want to hurry along a quiet stretch. (It resets to normal speed if you have to restart.)</li>
+    <li><strong>Zoom</strong> &mdash; steps the camera in or out so you can see more of the canal ahead or get a closer view for a tricky manoeuvre.</li>
+  </ul>
+  <h3>Back / exit</h3>
+  <p>Use your device's back gesture or the on-screen back/close control to leave a level and return to the level list.</p>
+
+  <h2 id="level">4. How a level works</h2>
+  <p>Each level is a stretch of canal with a <strong>start</strong> and a <strong>finish</strong>. Your job is to pilot your boat from one to the other &mdash; cleanly.</p>
+  <ul>
+    <li><strong>Don't crash.</strong> Bumping the bank, a moored boat, a lock wall, or another boat counts as a <strong>hit</strong>. Each level allows only so many hits; use them all up and you'll have to try again.</li>
+    <li><strong>Some levels are timed.</strong> When a level has a time limit, a timer appears. It turns amber when you're getting low and red (with a ticking sound) in the last few seconds.</li>
+    <li><strong>Some levels require you to moor.</strong> If a wharf is marked as a required stop, you must pull alongside and moor there before finishing.</li>
+    <li><strong>Reach the finish</strong> &mdash; cross the finish line (or moor at the finishing wharf) to complete the level.</li>
+  </ul>
+  <p>Complete a level and the next one unlocks.</p>
+
+  <h2 id="meet">5. Things you'll meet on the canal</h2>
+  <h3>5.1 Bends and narrows</h3>
+  <p>The canal twists left and right and sometimes pinches in. Slow down before a bend, start your turn early, and let the boat's length swing through. On narrow sections there's little room for error &mdash; patience pays.</p>
+  <h3>5.2 Moored boats</h3>
+  <p>Other people's boats are tied up along the bank. Give them a wide, slow berth &mdash; clipping a moored boat counts as a hit (and isn't very neighbourly).</p>
+  <h3>5.3 Other moving boats</h3>
+  <p>Sometimes another boat is travelling the canal too. Canal etiquette applies: pass oncoming boats slowly, keep to your side, and don't barge through. The other skipper will try to be polite as well &mdash; give them room and you'll both get through.</p>
+  <h3>5.4 Wharves (mooring up)</h3>
+  <p>A <strong>wharf</strong> is a concrete mooring along the bank. To moor, bring your boat gently <strong>alongside</strong> the wharf, lined up with it, and <strong>hold position</strong> there for a moment until the moor registers. Approach slowly and parallel &mdash; coming in too hot will just bump the edge.</p>
+  <p>Some wharves are optional; others are <strong>required</strong> stops you must make before the level will let you finish.</p>
+  <h3>5.5 Locks</h3>
+  <p>Locks raise or lower your boat between stretches of canal at different heights. Working a lock takes care:</p>
+  <ul>
+    <li>Line up straight with the chamber and ease in slowly &mdash; the walls are unforgiving.</li>
+    <li>Once you're in, the lock cycles (the water level changes) and the far gates open.</li>
+    <li>Move off gently when the way ahead is clear.</li>
+  </ul>
+  <p>You'll meet <strong>downhill</strong> and <strong>uphill</strong> locks, <strong>lock flights</strong> (several locks in a row), and both <strong>wide</strong> and <strong>narrow</strong> locks. Narrow locks are a single-boat squeeze &mdash; line up dead straight. The game introduces locks gently with on-screen guidance the first time.</p>
+  <h3>5.6 Bridges and aqueducts</h3>
+  <p>Where the canal crosses over itself, you'll pass under a <strong>bridge</strong> or over an <strong>aqueduct</strong>. Aim for the centre of the opening and keep straight.</p>
+
+  <h2 id="stars">6. Bonus stars</h2>
+  <p>Finishing a level earns you one star. Many levels offer <strong>two extra bonus stars</strong> for doing something a little harder &mdash; for example finishing without any hits, within a tighter time, or without reversing. The bonus conditions for a level are shown on the level, and your best star rating is saved. Three stars on every level is the mark of a true master of the cut.</p>
+
+  <h2 id="lives">7. Lives</h2>
+  <p>You have a pool of <strong>lives</strong>. Failing a level (too many hits, running out of time, or otherwise coming to grief) costs a life. Lives are tracked for you between attempts, so take each run carefully. You can always replay earlier levels.</p>
+
+  <h2 id="stages">8. The stages</h2>
+  <p>Canal Sim is organised into stages that build up your skills:</p>
+  <ul>
+    <li><strong>Helmsman School</strong> &mdash; the tutorial stage. Learn throttle, rudder, bends, mooring, and your first lock, one step at a time.</li>
+    <li><strong>Keith Boats</strong> &mdash; your first proper outings, putting the basics together on real journeys.</li>
+    <li><strong>Feltham Morley &amp; Claypole</strong> &mdash; longer, trickier runs with bigger boats, busier water, and full lock work.</li>
+    <li><strong>Linnet's Levels</strong> &mdash; an always-available sandbox stage with extra and experimental levels to enjoy at your leisure.</li>
+  </ul>
+  <p>Work through them in order, or dip into the sandbox whenever you fancy a free-form cruise.</p>
+
+  <h2 id="sound">9. Sound and settings</h2>
+  <p>Canal Sim has a full soundtrack, characterful engine notes that change with your boat and throttle, and fully voiced characters who'll chat to you along the way. You can adjust the volume in the settings, and of course your device's mute switch works too. The App plays sound only &mdash; it never listens. It does not use your microphone.</p>
+
+  <h2 id="tips">10. Tips for a clean run</h2>
+  <ul>
+    <li><strong>Slow is smooth.</strong> Most hits come from carrying too much speed into a bend, lock, or mooring.</li>
+    <li><strong>Steer early.</strong> A narrowboat answers the helm slowly &mdash; begin your turn before you think you need to.</li>
+    <li><strong>Use neutral.</strong> Easing the throttle to centre lets the boat glide and settle before a delicate manoeuvre.</li>
+    <li><strong>Pause to plan.</strong> There's no shame in pausing to study the next bend or lock.</li>
+    <li><strong>Watch the messages.</strong> New mechanics are always explained on-screen the first time you meet them.</li>
+    <li><strong>Replay for stars.</strong> Once you know a level, go back for those bonus stars.</li>
+  </ul>
+
+  <h2 id="faq">11. Frequently asked questions</h2>
+  <p class="faq-q">Do I need an internet connection?</p>
+  <p>No. Canal Sim is fully playable offline. It does not need a connection at any point.</p>
+  <p class="faq-q">Does the game collect my data?</p>
+  <p>No. Canal Sim collects no personal data and sends nothing off your device. Your game progress is saved locally on your device only. See the <a href="privacy-policy.html">Privacy Policy</a> for full details.</p>
+  <p class="faq-q">Why does my device mention a microphone permission?</p>
+  <p>The App's sound library may list an audio/microphone permission by default, but Canal Sim never records audio or uses your microphone &mdash; it only plays sounds.</p>
+  <p class="faq-q">How do I reset my progress?</p>
+  <p>There's a reset option in the App, and you can also clear the App's data in your device settings or simply reinstall.</p>
+  <p class="faq-q">I'm stuck on a level &mdash; any advice?</p>
+  <p>Slow right down, take it one obstacle at a time, and use Pause to plan. Re-read the on-screen tips for that mechanic. Speed is almost never the answer on a canal.</p>
+
+  <div class="tip">Happy cruising, and mind the moored boats! &mdash; King Paramount</div>
+
+  <footer>
+    <a href="index.html">Canal Sim home</a> &middot; <a href="privacy-policy.html">Privacy Policy</a> &middot; <a href="mailto:ccwakely@gmail.com">Contact</a><br>
+    &copy; 2026 King Paramount.
+  </footer>
+
+</body>
+</html>

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Canal Cruiser Log — King Paramount Canal Adventures</title>
-  <meta name="description" content="Canal Cruiser Log: a GPS journey tracker for UK narrowboaters and wide-beam cruisers. Log positions, attach photos, identify CRT waterways, export PDFs.">
+  <title>King Paramount — Apps</title>
+  <meta name="description" content="Apps by King Paramount: Canal Cruiser Log, a GPS journey tracker for narrowboaters, and Canal Sim, a relaxed narrowboat handling game.">
   <style>
     :root {
       color-scheme: light dark;
@@ -54,16 +54,7 @@
       color: var(--muted);
       margin: 0;
     }
-    h2 {
-      font-size: 1.35rem;
-      margin-top: 2.5rem;
-      margin-bottom: 0.75rem;
-    }
-    h3 {
-      font-size: 1.05rem;
-      margin: 1.25rem 0 0.25rem;
-      color: var(--accent);
-    }
+    h2 { font-size: 1.35rem; margin: 2.5rem 0 0.75rem; }
     p { margin: 0.6rem 0; }
     a {
       color: var(--accent);
@@ -71,52 +62,51 @@
       text-decoration-thickness: 1px;
       text-underline-offset: 2px;
     }
-    .features {
+    .apps {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.5rem;
     }
-    .feature {
+    .app-card {
       background: var(--panel);
-      padding: 1rem 1.1rem;
-      border-radius: 8px;
+      border-radius: 12px;
+      padding: 1.5rem 1.4rem;
+      border: 1px solid var(--rule);
+      display: flex;
+      flex-direction: column;
     }
-    .feature h3 {
-      margin-top: 0;
+    .app-card h2 {
+      margin: 0 0 0.4rem;
+      font-size: 1.4rem;
     }
-    .feature p {
-      margin: 0.25rem 0 0;
-      font-size: 0.96rem;
+    .app-card p.sub {
+      margin: 0 0 1rem;
       color: var(--muted);
+      font-size: 0.98rem;
+      flex-grow: 1;
     }
-    .pricing {
-      background: var(--panel);
-      border-left: 3px solid var(--accent);
-      padding: 0.85rem 1rem;
-      border-radius: 4px;
-      margin: 1.5rem 0;
-    }
-    .pricing strong { color: var(--fg); }
-    nav.links {
-      margin: 2.5rem 0;
-      padding: 1.25rem;
-      background: var(--panel);
+    .app-card a.cta {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--accent-fg);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.6rem 1.1rem;
       border-radius: 8px;
       text-align: center;
+      align-self: flex-start;
     }
-    nav.links h2 { margin-top: 0; font-size: 1.1rem; }
-    nav.links ul {
+    .app-card ul.sublinks {
       list-style: none;
       padding: 0;
-      margin: 0.75rem 0 0;
+      margin: 0.9rem 0 0;
       display: flex;
-      gap: 1.5rem;
-      justify-content: center;
+      gap: 1.1rem;
       flex-wrap: wrap;
+      font-size: 0.9rem;
     }
-    nav.links li { margin: 0; }
-    nav.links a { font-weight: 500; }
+    .app-card ul.sublinks li { margin: 0; }
     footer {
       margin-top: 3rem;
       padding-top: 1.5rem;
@@ -125,76 +115,42 @@
       font-size: 0.9rem;
       text-align: center;
     }
-    @media print {
-      body { font-size: 11pt; max-width: none; padding: 1rem; }
-      a { color: inherit; text-decoration: none; }
-      .features { grid-template-columns: 1fr 1fr; }
-    }
   </style>
 </head>
 <body>
 
   <header class="hero">
-    <h1>Canal Cruiser Log</h1>
-    <p class="tagline">Track your canal boat journey — GPS logs, photos, CRT waterway data, PDF export.</p>
+    <h1>King Paramount</h1>
+    <p class="tagline">Apps and games for the inland waterways.</p>
   </header>
 
-  <h2>About the app</h2>
-  <p>Canal Cruiser Log is a journey tracker built for UK narrowboaters and wide-beam cruisers. Whether you're a liveaboard keeping a compliance record or a leisure boater who wants to remember every beautiful mooring, it makes it effortless to document where your boat has been.</p>
-  <p>The app stores everything <strong>locally on your device</strong> — no account required, no servers to trust, no data shared.</p>
+  <h2>Choose an app</h2>
+  <div class="apps">
 
-  <h2>Features</h2>
-  <div class="features">
-    <div class="feature">
-      <h3>GPS Position Logging</h3>
-      <p>Tap once to capture exact latitude, longitude, and accuracy. Every entry pinned to an interactive map.</p>
+    <div class="app-card">
+      <h2>Canal Cruiser Log</h2>
+      <p class="sub">A GPS journey tracker for UK narrowboaters and wide-beam cruisers. Log positions, attach photos, identify CRT waterways, and export PDF reports.</p>
+      <a class="cta" href="canal-cruiser-log.html">View app &rarr;</a>
+      <ul class="sublinks">
+        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+        <li><a href="user-guide.html">User Guide</a></li>
+      </ul>
     </div>
-    <div class="feature">
-      <h3>Photo Attachment</h3>
-      <p>Attach a photo to any log entry — take a new one or pick from your library.</p>
+
+    <div class="app-card">
+      <h2>Canal Sim</h2>
+      <p class="sub">A relaxed, top-down narrowboat handling game. Steer a traditional canal boat through bends, locks, bridges and quiet moorings &mdash; at your own gentle pace.</p>
+      <a class="cta" href="canal-sim/">View app &rarr;</a>
+      <ul class="sublinks">
+        <li><a href="canal-sim/privacy-policy.html">Privacy Policy</a></li>
+        <li><a href="canal-sim/user-guide.html">User Guide</a></li>
+      </ul>
     </div>
-    <div class="feature">
-      <h3>CRT Waterway Identification</h3>
-      <p>Automatically identifies which Canal &amp; River Trust waterway you're on, using live CRT data.</p>
-    </div>
-    <div class="feature">
-      <h3>PDF Export</h3>
-      <p>Export your cruising history as a polished PDF report with embedded maps and photos.</p>
-    </div>
-    <div class="feature">
-      <h3>History &amp; Filtering</h3>
-      <p>Browse past logs filtered by today, this week, this month, or a custom date range.</p>
-    </div>
-    <div class="feature">
-      <h3>Multiple Boats</h3>
-      <p>Register as many boats as you like. Each one keeps its own independent log history.</p>
-    </div>
-    <div class="feature">
-      <h3>14-Day Reminder (Optional)</h3>
-      <p>Get notified if your boat has been in the same CRT location for two weeks — useful for continuous cruising.</p>
-    </div>
-    <div class="feature">
-      <h3>Private by Design</h3>
-      <p>All your data is stored on your device. No account, no servers, no tracking.</p>
-    </div>
+
   </div>
-
-  <div class="pricing">
-    <p><strong>Free version</strong> — supported by unobtrusive ads.<br>
-    <strong>Premium upgrade</strong> — remove ads with a one-time in-app purchase.</p>
-  </div>
-
-  <nav class="links">
-    <h2>More information</h2>
-    <ul>
-      <li><a href="privacy-policy.html">Privacy Policy</a></li>
-      <li><a href="user-guide.html">User Guide</a></li>
-      <li><a href="mailto:ccwakely@gmail.com">Contact</a></li>
-    </ul>
-  </nav>
 
   <footer>
-    Canal Cruiser Log is published by King Paramount Canal Adventures.<br>
+    Published by King Paramount Canal Adventures.<br>
     Contact: <a href="mailto:ccwakely@gmail.com">ccwakely@gmail.com</a>
   </footer>
 
