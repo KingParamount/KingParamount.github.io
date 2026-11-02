@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Tessel Taste: Sampler</title>
+<link rel="icon" href="img/symbol.svg">
+<link rel="stylesheet" href="fonts.css"><link rel="stylesheet" href="style.css">
+<script>
+// Animations (owner, 2 Nov 2026): on unless the computer asks for less motion or the visitor
+// turned them off (the link in the footer). Without scripts, everything simply shows.
+try { if (localStorage.getItem("tessel-motion") !== "off" &&
+         !matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("motion"); } catch (e) {}
+</script>
+</head><body style="--accent:#eaeae6;--on-accent:#1e1f23">
+<header class="top"><a class="brand" href="index.html"><img src="img/logo-one-line.svg" alt="Utopian Instruments"></a>
+<nav><a href="index.html">Home</a><a href="range.html" class="on">The range</a><a href="root.html">The Root</a><a href="how-it-works.html">How it works</a><a href="learn.html">Learn</a><a href="try.html">Try it</a><a href="support.html">Support</a><a href="about.html">About</a></nav></header>
+<div class="draftbar">Draft website, for checking: nothing here is for sale yet, and some links are placeholders.</div>
+<main>
+<nav class="crumbs wrap"><a href="index.html">Home</a> &rsaquo; <a href="range.html">The range</a> &rsaquo; Taste</nav>
+<nav class="unitbar"><div class="wrap"><a href="glass.html">Glass</a><a href="volt.html">Volt</a><a href="ember.html">Ember</a><a href="axis.html">Axis</a><a href="strike.html">Strike</a><a href="taste.html" class="on">Taste</a><a href="grit.html">Grit</a><a href="haze.html">Haze</a><a href="step.html">Step</a><a href="pilot.html">Pilot</a></div></nav>
+<section class="unithead"><div class="wrap">
+  <p class="family">Drums and samples</p><h1>Tessel Taste</h1><p class="kind">Sampler</p>
+</div></section>
+<section class="wrap unit">
+  <div class="unitpic"><div class="cycle fade alive" data-every="2600"><img src="img/panel-taste.svg" alt="Tessel Taste, as it comes" class="on"><img src="img/panel-taste-p1.svg" alt="Tessel Taste, as it comes"><img src="img/panel-taste-p2.svg" alt="Tessel Taste, as it comes"><img src="img/panel-taste-p3.svg" alt="Tessel Taste, as it comes"></div>
+  <p class="small">As it comes: the standard panel, with the button names written on by hand. Click to see it larger.</p></div>
+  <div class="unittext">
+    <p class="lead">Record anything: the microphone, a line input, any other unit, or all of them at once. Chop it into slices, play it back on the keys, and give it the gritty character of the old 12-bit samplers if you like.</p>
+    <ul class="points"><li>Record from the Root's inputs, its built-in microphone or any unit</li><li>Chop evenly or at every hit</li><li>Kits (a sample per key) and instruments (one sample, played in tune)</li><li>CHARACTER: clean, 12-bit, or 12-bit at a lower rate</li><li>Stretch a loop to the tempo without changing its pitch</li></ul>
+    <h3>Hear it</h3>
+    <figure class="track"><audio controls preload="none" src="sounds/hiphop-1.m4a"></audio><figcaption>Taste playing a chopped break, from Making Music's hip-hop chapter</figcaption></figure>
+    <p>Learn it from the first sound to your own: <a href="learn.html"><i>Making Sounds</i></a>, chapter 8.</p>
+    <p class="small">Every unit is the same hardware: this is one of the ten things any unit can become, and you can
+    change it whenever you like.</p>
+  </div>
+</section>
+<nav class="wrap prevnext"><a href="strike.html">&larr; Strike</a>
+<a href="range.html">The range</a><a href="grit.html">Grit &rarr;</a></nav></main>
+<footer><img src="img/symbol.svg" alt="" class="sym">
+<p><b>TESSEL</b> by Utopian Instruments</p>
+<p class="small">Contact details to come. &copy; 2026 Utopian Instruments.</p>
+<p class="small"><a href="#" id="motion-switch" class="motion-switch"></a></p></footer>
+<div class="zoombox" id="zoombox"><img alt=""></div>
+<script>
+// Click a unit's picture to see it filling the window; click again or press Esc to close.
+const box = document.getElementById("zoombox");
+document.querySelectorAll(".unitpic img, .fadepair img").forEach(img => img.addEventListener("click", () => {
+  box.querySelector("img").src = img.src; box.querySelector("img").alt = img.alt; box.classList.add("open");
+}));
+box.addEventListener("click", () => box.classList.remove("open"));
+document.addEventListener("keydown", e => { if (e.key === "Escape") box.classList.remove("open"); });
+
+// Sections fade up as they come into view. The page scrolls normally: nothing holds the wheel.
+const root = document.documentElement;
+if (root.classList.contains("motion")) {
+  // RISE-POINT: a section starts its fade once its top is this far up the window (0.97 = as soon as it peeks in)
+  const RISE_POINT = 0.97;
+  const waiting = [...document.querySelectorAll(".rise")];
+  function check() {
+    for (let i = waiting.length - 1; i >= 0; i--) {
+      if (waiting[i].getBoundingClientRect().top < innerHeight * RISE_POINT) {
+        waiting[i].classList.add("shown"); waiting.splice(i, 1);
+      }
+    }
+  }
+  addEventListener("scroll", check, {passive: true}); addEventListener("resize", check);
+  // and again once fonts and pictures have loaded, as they move things a little
+  check(); requestAnimationFrame(check); addEventListener("load", check);
+  setTimeout(check, 600); setTimeout(check, 1500);
+}
+// Pictures that take turns (the range page's unit becoming each of the ten, a unit page's screen
+// coming alive): every data-every milliseconds the next one shows, and a caption follows if any.
+if (root.classList.contains("motion")) {
+  document.querySelectorAll(".cycle").forEach(stack => {
+    const imgs = [...stack.querySelectorAll("img")];
+    const caption = stack.parentElement.querySelector(".cycle-caption");
+    if (imgs.length < 2) return;
+    let i = 0;
+    setInterval(() => {
+      imgs[i].classList.remove("on"); i = (i + 1) % imgs.length; imgs[i].classList.add("on");
+      if (caption) { const c = caption.children; if (c.length) {
+        for (const el of c) el.classList.remove("on"); c[i % c.length].classList.add("on"); } }
+    }, +stack.dataset.every || 2000);
+  });
+}
+// The home page's crossfade. The frame (.xf-box) stays pinned under the menu bar while its
+// stage scrolls past; inside it, every section lies at the top, and the scroll position sets
+// which one shows: a tall section first scrolls through its own content, then over the next
+// FADE_SCROLL of the window's height it dissolves into the next one. Scrolling up runs it back.
+const stage = document.getElementById("xf-stage");
+if (stage && root.classList.contains("motion")) {
+  const FADE_SCROLL = 0.6;   // how far you scroll for one dissolve, as a share of the window's height
+  const HOLD_SCROLL = 1.0;   // how far you scroll with a section fully in and nothing changing, before
+                             // the next dissolve starts (the resting place between dissolves)
+  const box = stage.querySelector(".xf-box");
+  const parts = [...box.children].filter(el => el.tagName === "SECTION");
+  const head = document.querySelector(".top");
+  let plan = [], fade = 0, hold = 0, avail = 0;
+  stage.classList.add("xf-on");
+  parts.forEach(p => p.querySelectorAll(".rise").forEach(r => r.classList.add("shown")));
+  function measure() {
+    const top = head.offsetHeight;
+    avail = innerHeight - top; fade = Math.round(innerHeight * FADE_SCROLL);
+    hold = Math.round(innerHeight * HOLD_SCROLL);
+    stage.style.setProperty("--xf-top", top + "px"); stage.style.setProperty("--xf-h", avail + "px");
+    plan = parts.map(p => Math.max(0, p.offsetHeight - avail));   // each section's own scroll
+    const length = plan.reduce((a, b) => a + b, 0) + (fade + hold) * (parts.length - 1);
+    stage.style.height = (avail + length) + "px";
+    draw();
+  }
+  function draw() {
+    let s = -stage.getBoundingClientRect().top + head.offsetHeight;   // how far into the stage
+    s = Math.max(0, s);
+    parts.forEach(p => { p.style.opacity = 0; p.style.pointerEvents = "none"; p.style.transform = "";
+                          p.firstElementChild.style.opacity = 0; });
+    for (let i = 0; i < parts.length; i++) {
+      const own = plan[i];
+      if (s <= own + hold || i === parts.length - 1) {              // reading this one, then resting
+        show(i, 1, Math.min(s, own), 1); return;
+      }
+      s -= own + hold;
+      if (s < fade) {                                               // dissolving into the next
+        // the backgrounds blend all the way across; the words leave in the first half and the
+        // new words arrive in the second, so the two never sit on top of each other
+        const q = s / fade;
+        show(i, 1 - q, own, Math.max(0, 1 - 2 * q)); show(i + 1, q, 0, Math.max(0, 2 * q - 1)); return;
+      }
+      s -= fade;
+    }
+  }
+  function show(i, alpha, offset, words) {
+    const p = parts[i];
+    p.style.opacity = alpha; p.style.transform = offset ? `translateY(${-offset}px)` : "";
+    p.firstElementChild.style.opacity = words;
+    p.style.pointerEvents = alpha > 0.5 ? "auto" : "none";
+  }
+  addEventListener("scroll", draw, {passive: true});
+  addEventListener("resize", measure); addEventListener("load", measure);
+  measure(); setTimeout(measure, 800);
+}
+// the footer's switch: turn animations off or on, remembered in this browser
+const sw = document.getElementById("motion-switch");
+let off = false; try { off = localStorage.getItem("tessel-motion") === "off"; } catch (e) {}
+sw.textContent = off ? "Turn animations on" : "Turn animations off";
+sw.addEventListener("click", e => {
+  e.preventDefault();
+  try { localStorage.setItem("tessel-motion", off ? "on" : "off"); } catch (e2) {}
+  location.reload();
+});
+</script>
+</body></html>

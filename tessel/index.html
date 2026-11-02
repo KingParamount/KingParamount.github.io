@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Tessel: small instruments that snap together</title>
+<link rel="icon" href="img/symbol.svg">
+<link rel="stylesheet" href="fonts.css"><link rel="stylesheet" href="style.css">
+<script>
+// Animations (owner, 2 Nov 2026): on unless the computer asks for less motion or the visitor
+// turned them off (the link in the footer). Without scripts, everything simply shows.
+try { if (localStorage.getItem("tessel-motion") !== "off" &&
+         !matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("motion"); } catch (e) {}
+</script>
+</head><body>
+<header class="top"><a class="brand" href="index.html"><img src="img/logo-one-line.svg" alt="Utopian Instruments"></a>
+<nav><a href="index.html" class="on">Home</a><a href="range.html">The range</a><a href="root.html">The Root</a><a href="how-it-works.html">How it works</a><a href="learn.html">Learn</a><a href="try.html">Try it</a><a href="support.html">Support</a><a href="about.html">About</a></nav></header>
+<div class="draftbar">Draft website, for checking: nothing here is for sale yet, and some links are placeholders.</div>
+<main><!-- The sections below, the opening included, dissolve one into the next as you scroll (owner, 2 Nov 2026): see
+     "crossfade" in website/style.css and build.py. Without it they simply follow one another. -->
+<div class="xf-stage" id="xf-stage"><div class="xf-box">
+<section class="hero">
+  <h1>TESSEL</h1>
+  <p class="tag">A family of small instruments that snap together.</p>
+  <img src="img/chain.png" alt="A Root with Step, Strike, Volt, Glass and Haze joined on">
+</section>
+
+<section class="band"><div class="wrap rise">
+  <div class="unit home-becomes" style="padding-top:0">
+    <div class="unitpic becomes"><div class="cycle fade" data-every="2600"><img src="img/panel-glass.svg" alt="A unit as Tessel Glass"  class="on"><img src="img/panel-volt.svg" alt="A unit as Tessel Volt" ><img src="img/panel-ember.svg" alt="A unit as Tessel Ember" ><img src="img/panel-axis.svg" alt="A unit as Tessel Axis" ><img src="img/panel-strike.svg" alt="A unit as Tessel Strike" ><img src="img/panel-taste.svg" alt="A unit as Tessel Taste" ><img src="img/panel-grit.svg" alt="A unit as Tessel Grit" ><img src="img/panel-haze.svg" alt="A unit as Tessel Haze" ><img src="img/panel-step.svg" alt="A unit as Tessel Step" ><img src="img/panel-pilot.svg" alt="A unit as Tessel Pilot" ></div><p class="cycle-caption"><span class="on"><b>Glass</b> FM synth</span><span><b>Volt</b> Mono synth for bass and lead</span><span><b>Ember</b> Six-voice synth for chords and pads</span><span><b>Axis</b> Vector synth</span><span><b>Strike</b> Drum machine</span><span><b>Taste</b> Sampler</span><span><b>Grit</b> Granular synth</span><span><b>Haze</b> Effects</span><span><b>Step</b> Sequencer</span><span><b>Pilot</b> Controller</span></p></div>
+    <div>
+      <h2>Every unit can be any of ten instruments</h2>
+      <p class="lead">Every Tessel unit is the same hardware, with 27 keys, a colour screen, four encoders and eighteen buttons. What it becomes is up to you: an FM synth, a drum machine, a sampler, a sequencer, an effects unit or one of the others, and you can change your mind as often as you like.</p>
+      <div class="cols" style="margin-top:28px">
+        <div><div class="step-n">1</div><h3>Snap them together</h3><p>Units join side by side with magnets. The Root on the left takes the power and gives out the sound, for headphones, speakers or a computer.</p></div>
+        <div><div class="step-n">2</div><h3>Choose what each becomes</h3><p>A new unit starts blank. You turn one encoder to pick what it should be and hold another, and it takes the software from the Root, which keeps all ten.</p></div>
+        <div><div class="step-n">3</div><h3>Play, and make music</h3><p>There are over two hundred factory sounds to start from, and room for your own. Step sequences the whole row and Haze adds the reverb and echo, all without a computer.</p></div>
+      </div>
+      <p style="margin-top:12px"><a class="button" href="how-it-works.html">How it works</a> <a class="button ghost" href="range.html">See the range</a> <a class="button ghost" href="try.html">Try it out</a></p>
+    </div>
+  </div>
+</div></section>
+
+<section class="band dark"><div class="wrap rise">
+  <h2>Hear it</h2>
+  <p>These are the tracks you build in <i>Making Music</i>, made on Tessel units by following the book's own steps. They're deliberately plain, so you can hear what each part does; what you do with them is up to you.</p>
+  <div class="tracks"><figure class="track"><audio controls preload="none" src="sounds/techno-1.m4a"></audio><figcaption><b>Techno</b><br><span class='small'>Step, Strike, Volt</span></figcaption></figure><figure class="track"><audio controls preload="none" src="sounds/acid-3.m4a"></audio><figcaption><b>Acid</b><br><span class='small'>Step, Strike, Volt, Haze</span></figcaption></figure><figure class="track"><audio controls preload="none" src="sounds/house-3.m4a"></audio><figcaption><b>House</b><br><span class='small'>Step, Strike, Volt, Ember, Haze</span></figcaption></figure><figure class="track"><audio controls preload="none" src="sounds/hiphop-2.m4a"></audio><figcaption><b>Hip-hop</b><br><span class='small'>Step, Taste, Strike, Volt</span></figcaption></figure><figure class="track"><audio controls preload="none" src="sounds/ambient-3.m4a"></audio><figcaption><b>Ambient</b><br><span class='small'>Step, Axis, Grit, Haze</span></figcaption></figure><figure class="track"><audio controls preload="none" src="sounds/synthwave-3.m4a"></audio><figcaption><b>Synthwave</b><br><span class='small'>Step, Strike, Volt, Ember, Glass, Axis, Haze</span></figcaption></figure></div>
+</div></section>
+
+<section class="band"><div class="wrap rise">
+  <h2>Learn by building</h2>
+  <p class="lead">Tessel was designed to teach as well as to play. Two free books take you from your first sound to finished tracks, a step at a time, and every result in them is there to listen to.</p>
+  <div class="books">
+    <div class="book"><h3 style="margin-top:0"><i>Making Sounds</i></h3><p>The first chapters explain what a sound is made of; after that there's a chapter for each kind of unit, in which you build sounds from a blank start and find out why each control does what it does. One unit is enough to begin.</p></div>
+    <div class="book"><h3 style="margin-top:0"><i>Making Music</i></h3><p>Seven styles, from techno and acid to ambient and synthwave, each with a little of its history and three tracks for you to write on Step, starting simple and growing from there.</p></div>
+  </div>
+  <p style="margin-top:20px"><a class="button" href="learn.html">The books</a></p>
+</div></section>
+
+<section class="band charcoal"><div class="wrap rise">
+  <h2>Deluxe panels</h2>
+  <p>Every unit comes with the standard panel: black, with a white area under the buttons where you write their names on by hand. If you'd like something smarter, deluxe panels, with every name printed, are available as an upgrade, in a colour for each family: blue for the synths, white for the drums and samplers, purple for Step and Pilot, and green for Haze.</p>
+  <div class="fadepair pic-wide"><img src="img/chain.png" alt="A row with the standard panels"><img class="top" src="img/chain-deluxe.png" alt="The same row with deluxe panels"></div>
+  <p class="fadepair-label"><span class="plain">Standard panels, as every unit comes</span><span class="printed">Deluxe panels, an optional upgrade</span></p>
+</div></section>
+
+<section class="band"><div class="wrap rise" style="text-align:center">
+  <h2>Yours to keep</h2>
+  <p class="lead">You'll never need an account, a subscription or an app to use a Tessel. Firmware updates are free, and you can change what any unit is as often as you like.</p>
+</div></section>
+</div></div>
+</main>
+<footer><img src="img/symbol.svg" alt="" class="sym">
+<p><b>TESSEL</b> by Utopian Instruments</p>
+<p class="small">Contact details to come. &copy; 2026 Utopian Instruments.</p>
+<p class="small"><a href="#" id="motion-switch" class="motion-switch"></a></p></footer>
+<div class="zoombox" id="zoombox"><img alt=""></div>
+<script>
+// Click a unit's picture to see it filling the window; click again or press Esc to close.
+const box = document.getElementById("zoombox");
+document.querySelectorAll(".unitpic img, .fadepair img").forEach(img => img.addEventListener("click", () => {
+  box.querySelector("img").src = img.src; box.querySelector("img").alt = img.alt; box.classList.add("open");
+}));
+box.addEventListener("click", () => box.classList.remove("open"));
+document.addEventListener("keydown", e => { if (e.key === "Escape") box.classList.remove("open"); });
+
+// Sections fade up as they come into view. The page scrolls normally: nothing holds the wheel.
+const root = document.documentElement;
+if (root.classList.contains("motion")) {
+  // RISE-POINT: a section starts its fade once its top is this far up the window (0.97 = as soon as it peeks in)
+  const RISE_POINT = 0.97;
+  const waiting = [...document.querySelectorAll(".rise")];
+  function check() {
+    for (let i = waiting.length - 1; i >= 0; i--) {
+      if (waiting[i].getBoundingClientRect().top < innerHeight * RISE_POINT) {
+        waiting[i].classList.add("shown"); waiting.splice(i, 1);
+      }
+    }
+  }
+  addEventListener("scroll", check, {passive: true}); addEventListener("resize", check);
+  // and again once fonts and pictures have loaded, as they move things a little
+  check(); requestAnimationFrame(check); addEventListener("load", check);
+  setTimeout(check, 600); setTimeout(check, 1500);
+}
+// Pictures that take turns (the range page's unit becoming each of the ten, a unit page's screen
+// coming alive): every data-every milliseconds the next one shows, and a caption follows if any.
+if (root.classList.contains("motion")) {
+  document.querySelectorAll(".cycle").forEach(stack => {
+    const imgs = [...stack.querySelectorAll("img")];
+    const caption = stack.parentElement.querySelector(".cycle-caption");
+    if (imgs.length < 2) return;
+    let i = 0;
+    setInterval(() => {
+      imgs[i].classList.remove("on"); i = (i + 1) % imgs.length; imgs[i].classList.add("on");
+      if (caption) { const c = caption.children; if (c.length) {
+        for (const el of c) el.classList.remove("on"); c[i % c.length].classList.add("on"); } }
+    }, +stack.dataset.every || 2000);
+  });
+}
+// The home page's crossfade. The frame (.xf-box) stays pinned under the menu bar while its
+// stage scrolls past; inside it, every section lies at the top, and the scroll position sets
+// which one shows: a tall section first scrolls through its own content, then over the next
+// FADE_SCROLL of the window's height it dissolves into the next one. Scrolling up runs it back.
+const stage = document.getElementById("xf-stage");
+if (stage && root.classList.contains("motion")) {
+  const FADE_SCROLL = 0.6;   // how far you scroll for one dissolve, as a share of the window's height
+  const HOLD_SCROLL = 1.0;   // how far you scroll with a section fully in and nothing changing, before
+                             // the next dissolve starts (the resting place between dissolves)
+  const box = stage.querySelector(".xf-box");
+  const parts = [...box.children].filter(el => el.tagName === "SECTION");
+  const head = document.querySelector(".top");
+  let plan = [], fade = 0, hold = 0, avail = 0;
+  stage.classList.add("xf-on");
+  parts.forEach(p => p.querySelectorAll(".rise").forEach(r => r.classList.add("shown")));
+  function measure() {
+    const top = head.offsetHeight;
+    avail = innerHeight - top; fade = Math.round(innerHeight * FADE_SCROLL);
+    hold = Math.round(innerHeight * HOLD_SCROLL);
+    stage.style.setProperty("--xf-top", top + "px"); stage.style.setProperty("--xf-h", avail + "px");
+    plan = parts.map(p => Math.max(0, p.offsetHeight - avail));   // each section's own scroll
+    const length = plan.reduce((a, b) => a + b, 0) + (fade + hold) * (parts.length - 1);
+    stage.style.height = (avail + length) + "px";
+    draw();
+  }
+  function draw() {
+    let s = -stage.getBoundingClientRect().top + head.offsetHeight;   // how far into the stage
+    s = Math.max(0, s);
+    parts.forEach(p => { p.style.opacity = 0; p.style.pointerEvents = "none"; p.style.transform = "";
+                          p.firstElementChild.style.opacity = 0; });
+    for (let i = 0; i < parts.length; i++) {
+      const own = plan[i];
+      if (s <= own + hold || i === parts.length - 1) {              // reading this one, then resting
+        show(i, 1, Math.min(s, own), 1); return;
+      }
+      s -= own + hold;
+      if (s < fade) {                                               // dissolving into the next
+        // the backgrounds blend all the way across; the words leave in the first half and the
+        // new words arrive in the second, so the two never sit on top of each other
+        const q = s / fade;
+        show(i, 1 - q, own, Math.max(0, 1 - 2 * q)); show(i + 1, q, 0, Math.max(0, 2 * q - 1)); return;
+      }
+      s -= fade;
+    }
+  }
+  function show(i, alpha, offset, words) {
+    const p = parts[i];
+    p.style.opacity = alpha; p.style.transform = offset ? `translateY(${-offset}px)` : "";
+    p.firstElementChild.style.opacity = words;
+    p.style.pointerEvents = alpha > 0.5 ? "auto" : "none";
+  }
+  addEventListener("scroll", draw, {passive: true});
+  addEventListener("resize", measure); addEventListener("load", measure);
+  measure(); setTimeout(measure, 800);
+}
+// the footer's switch: turn animations off or on, remembered in this browser
+const sw = document.getElementById("motion-switch");
+let off = false; try { off = localStorage.getItem("tessel-motion") === "off"; } catch (e) {}
+sw.textContent = off ? "Turn animations on" : "Turn animations off";
+sw.addEventListener("click", e => {
+  e.preventDefault();
+  try { localStorage.setItem("tessel-motion", off ? "on" : "off"); } catch (e2) {}
+  location.reload();
+});
+</script>
+</body></html>

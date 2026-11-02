@@ -1,0 +1,389 @@
+<!doctype html>
+<!--
+  try.html - the Try it page's working parts (2 Nov 2026; layout B, owner's choice).
+
+  The emulator draws the row as a strip along the top and the unit in front large on the left;
+  this page puts the bar along the top and the notes about the unit in front on the right.
+  Built by website/try/build-web.sh beside tessel.js/.wasm/.data (website/try/out/). Things you
+  may want to change are in SETTINGS and NOTES below.
+-->
+<html lang="en-GB"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Try Tessel in your browser</title>
+<link rel="icon" href="img/symbol.svg">
+<link rel="stylesheet" href="fonts.css"><link rel="stylesheet" href="style.css">
+<style>
+  :root{--charcoal:#3a3c40;--red:#d8342b;--ink:#16171b;--soft:#c9cad0;--bar:46px;
+    --arrow:#ffd23f;   /* the tour's arrow and ring (owner: not red, which the LEDs use); ARROW-COLOUR */
+    --arrow-width:6px} /* ARROW-WIDTH */
+  html,body{margin:0;height:100%;background:var(--charcoal);color:#e7e8ec;font:16px/1.5 "Karla",system-ui,sans-serif;overflow:hidden}
+  /* the bar along the top */
+  #bar{height:var(--bar);display:flex;align-items:center;justify-content:space-between;padding:0 16px;
+    border-bottom:1px solid #4a4c52;font:500 .95rem "Space Grotesk",system-ui,sans-serif;box-sizing:border-box}
+  #song{color:#fff}
+  #song em{font-style:normal;color:var(--soft);margin-left:8px;font-family:"Karla",sans-serif}
+  .seg{display:inline-flex;margin-left:8px;border-radius:6px;overflow:hidden;box-shadow:inset 0 0 0 1.5px #8d8f98;vertical-align:middle}
+  .seg button,.btn{font:inherit;color:#e7e8ec;background:none;border:0;padding:6px 12px;cursor:pointer}
+  .seg button.on{background:#e7e8ec;color:var(--ink)}
+  .btn{border-radius:6px;margin-left:8px;box-shadow:inset 0 0 0 1.5px #8d8f98}
+  .btn.red{background:var(--red);box-shadow:none;color:#fff}
+  /* the app fills the window below the website's menu bar (the website build puts that bar in
+     at SITE-TOP; standing alone, the app has the whole window) */
+  #app{position:absolute;left:0;right:0;bottom:0;top:0}
+  /* the emulator, filling the rest; the notes over its right half */
+  #stage{position:absolute;top:var(--bar);left:0;right:0;bottom:0}
+  canvas{display:block;outline:none}
+  #notes{position:absolute;right:24px;bottom:12px;max-width:520px;overflow-y:auto;color:#e7e8ec;scrollbar-color:#5a5c62 transparent}   /* below the strip (place()); scrolls if short of room */
+  #notes h2{font:700 1.7rem "Space Grotesk",system-ui,sans-serif;margin:0}
+  #notes .kind{color:var(--soft);margin:2px 0 14px}
+  #notes dt{font:600 1rem "Space Grotesk",sans-serif;color:#fff;margin-top:12px}
+  #notes dd{margin:2px 0 0;color:var(--soft)}
+  #notes .more{margin-top:18px;color:var(--soft)}
+  #notes a{color:#ff5a4a}
+  #notes .hide{font:500 .85rem "Space Grotesk",sans-serif;color:#8d8f98;cursor:pointer;margin-top:14px;display:inline-block}
+  #shownotes{position:absolute;right:24px;bottom:24px;display:none}
+  /* start, how to play, the phone note */
+  .cover{position:absolute;inset:0;background:rgba(36,37,41,.94);display:flex;align-items:center;justify-content:center;z-index:5}
+  .card{max-width:560px;padding:28px 32px;background:#2a2b2f;border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,.5)}
+  .card h1{font:700 1.8rem "Space Grotesk",system-ui,sans-serif;margin:0 0 10px}
+  .card p{color:var(--soft);margin:0 0 12px}
+  .card .btn{margin:6px 8px 0 0;padding:10px 18px}
+  #howto{display:none}
+  /* the tour: a message, a ring on the control and an arrow from one to the other */
+  #tour{position:absolute;right:24px;width:380px;background:#2a2b2f;border-radius:12px;padding:18px 20px;
+    box-shadow:0 10px 40px rgba(0,0,0,.5);z-index:4;display:none}
+  #tour p{margin:0 0 12px;color:#e7e8ec}
+  #tour .step{font:600 .8rem "Space Grotesk",sans-serif;color:#8d8f98;letter-spacing:.06em;margin-bottom:6px}
+  #tour .btn{margin:0 8px 0 0;padding:6px 12px;font-size:.88rem}
+  #arrow{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:3;display:none}
+  @keyframes pulse{0%,100%{stroke-opacity:1}50%{stroke-opacity:.35}}
+  #arrow circle{animation:pulse 1.2s ease-in-out infinite}
+  .astroke{stroke:var(--arrow);stroke-width:var(--arrow-width);stroke-linecap:round}
+  .ahead{fill:var(--arrow)}
+  #tour{border:2px solid var(--arrow)}
+  body.touring #bar .seg, body.touring #howbtn{opacity:.4;pointer-events:none}   /* (the tour's on) */
+  #howto dt{font:600 1rem "Space Grotesk",sans-serif;color:#fff;margin-top:10px}
+  #howto dd{margin:2px 0 0;color:var(--soft)}
+</style></head>
+<body>
+<div id="site-top"><header class="top"><a class="brand" href="index.html"><img src="img/logo-one-line.svg" alt="Utopian Instruments"></a><nav><a href="index.html">Home</a><a href="range.html">The range</a><a href="root.html">The Root</a><a href="how-it-works.html">How it works</a><a href="learn.html">Learn</a><a href="try.html" class="on">Try it</a><a href="support.html">Support</a><a href="about.html">About</a></nav></header><div class="draftbar">Draft website, for checking: nothing here is for sale yet, and some links are placeholders.</div></div><script>window.TESSEL_DIR = "try/";</script>
+<div id="app">
+<div id="bar">
+  <div id="song">Loading...</div>
+  <div>
+    <span class="seg" id="panels"><button data-v="0">Standard</button><button class="on" data-v="1">Deluxe</button></span>
+    <span class="seg" id="turn"><button class="on" data-v="0">Upright</button><button data-v="1">Turned</button></span>
+    <button class="btn" id="howbtn">How to play</button>
+    <button class="btn red" id="again">Start again</button>
+  </div>
+</div>
+<div id="stage">
+  <canvas id="canvas" tabindex="-1" oncontextmenu="event.preventDefault()"></canvas>
+  <div id="notes"></div>
+  <button class="btn" id="shownotes">Show notes</button>
+  <svg id="arrow"><defs><marker id="head" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="4" markerHeight="4" orient="auto">
+    <path d="M0,0 L10,5 L0,10 z" class="ahead"/></marker></defs>
+    <line id="aline" class="astroke" marker-end="url(#head)"/>
+    <circle id="aring" r="24" fill="none" class="astroke"/></svg>
+  <div id="tour"></div>
+</div>
+
+<div class="cover" id="start">
+  <div class="card">
+    <h1>Try Tessel</h1>
+    <p>A Root and Step, with seven songs on Step. Each song brings its own units onto the row. Change anything you like: it all works, as on the real thing. Nothing is kept when you leave the page.</p>
+    <p id="phone" style="display:none"><b>This works best on a computer.</b> On a phone the units are very small, but you can still try it.</p>
+    <button class="btn red" id="go" disabled>Loading...</button>
+    <p id="trouble" style="display:none;margin-top:14px"></p>
+  </div>
+</div>
+
+<div class="cover" id="howto">
+  <div class="card">
+    <h1>How to play</h1>
+    <dl>
+      <dt>Buttons and keys</dt><dd>Click them. Shift-click a key to hold it down; click it again to let go.</dd>
+      <dt>Encoders</dt><dd>Drag up or down to turn one, or use the scroll wheel over it. Right-click to push it.</dd>
+      <dt>Your computer's keyboard</dt><dd>Z to M and Q to O play the keys of the unit in front; [ and ] are OCT- and OCT+.</dd>
+      <dt>Another unit</dt><dd>Click it in the row along the top to bring it forward. Every unit keeps playing.</dd>
+      <dt>Another song</dt><dd>On Step, press SONG, turn encoder 1 to the song, then push encoder 1 to load it.</dd>
+    </dl>
+    <button class="btn red" id="howclose">Back to it</button>
+  </div>
+</div>
+
+</div><!-- #app -->
+<script>
+// ---- SETTINGS -------------------------------------------------------------------------
+// Where the books are (from this page), and each song's chapter in Making Music.
+const BOOKS = "books/";
+const SONGS = [   // in Step's order: name, Making Music chapter
+  ["TECHNO", 3], ["ACID", 4], ["HOUSE", 5], ["HIP-HOP", 6], ["AMBIENT", 7], ["SYNTHWAVE", 9], ["HOUSE DEMO", 5],
+];
+// ---- NOTES: what each unit is, where to start, and its chapter in Making Sounds --------
+const NOTES = {
+  STEP: { name: "Step", kind: "Sequencer", book: "music", tips: [
+    ["PLAY and STOP", "PLAY starts the song from the top, STOP stops it."],
+    ["Another song", "Press SONG, turn encoder 1 to the song, then push encoder 1 to load it: its units join the row."],
+    ["Your own song", "On SONG, turn encoder 4 to NEW and hold it. The units on the row stay as they are."] ] },
+  STRIKE: { name: "Strike", kind: "Drum machine", ch: 5, tips: [
+    ["The kits", "BOOM, PUNCH, SPARK, VELVET, NEON and TIMBER, down the left of the buttons."],
+    ["A drum's settings", "Press EDIT, then a key: its settings are on the four encoders. A factory kit can be looked at, not changed."],
+    ["Kits of your own", "SOUNDS, then a USER bank."] ] },
+  VOLT: { name: "Volt", kind: "Mono synth for bass and lead", ch: 4, tips: [
+    ["The sounds", "SOUNDS (bottom middle): encoder 1 for a bank, encoder 2 for a sound."],
+    ["Two synths in one", "CLASSIC and ACID (top right) switch the sound between its two modes."],
+    ["The filter", "FILTER: CUTOFF and EMPHASIS on encoders 1 and 2."] ] },
+  EMBER: { name: "Ember", kind: "Six-voice synth for chords and pads", ch: 6, tips: [
+    ["The sounds", "SOUNDS (bottom middle): encoder 1 for a bank, encoder 2 for a sound."],
+    ["The filter", "VCF: FREQ and RES on encoders 1 and 2."],
+    ["Chorus", "CHORUS I and CHORUS II (top right) switch it on and off."] ] },
+  GLASS: { name: "Glass", kind: "FM synth", ch: 3, tips: [
+    ["The sounds", "SOUNDS (bottom middle): encoder 1 for a bank, encoder 2 for a sound."],
+    ["The operators", "OP1 to OP6 (left column) choose one; the middle column's pages change it."],
+    ["The algorithm", "VOICE, then turn encoder 1: the algorithm is drawn on the screen."] ] },
+  AXIS: { name: "Axis", kind: "Vector synth", ch: 7, tips: [
+    ["The sounds", "SOUNDS (bottom middle): encoder 1 for a bank, encoder 2 for a sound."],
+    ["The vector", "VECTOR: encoders 3 and 4 move X and Y, the mix between the four waves."] ] },
+  TASTE: { name: "Taste", kind: "Sampler", ch: 8, tips: [
+    ["The sounds", "SOUNDS (bottom middle): encoder 1 for a bank, encoder 2 for a sound."],
+    ["Chopping", "CHOP cuts the sample into slices, played from the keys."] ] },
+  GRIT: { name: "Grit", kind: "Granular synth", ch: 9, tips: [
+    ["The sounds", "SOUNDS (bottom middle): encoder 1 for a bank, encoder 2 for a sound."],
+    ["The grains", "GRAIN: SIZE and DENSITY on encoders 1 and 2."],
+    ["Freeze", "FREEZE (top right) holds the cloud still."] ] },
+  HAZE: { name: "Haze", kind: "Effects", ch: 10, tips: [
+    ["The presets", "SOUNDS (bottom middle)."],
+    ["How much of each unit", "SENDS: one encoder for each unit's echo and reverb."],
+    ["One unit coloured", "SOURCE chooses the unit that DRIVE, FILTER and PUMP work on."] ] },
+};
+
+// ---- THE TOUR: shown after Start, a step at a time; doing what a step says moves on -------
+// unit: which unit must be in front (a function of the row for "a synth"); at: the control
+// (pad number, 27 + row x 3 + column for the function buttons; encoders count from 0);
+// done: what counts as doing it (ev = the visitor's presses since the last look).
+// needs: what must be true first (a skipped or undone step): if it isn't, the arrow goes to
+// `first` with its own words, so the message never asks for something the unit won't do.
+const SYNTHS = ["VOLT", "EMBER", "GLASS", "AXIS", "TASTE", "GRIT"];   // the first on the row is used
+// The song the tour loads (owner, 2 Nov 2026: song 7, HOUSE DEMO, whose bass comes in by bar 5,
+// so changing Volt's sound is heard at once; counting from 0). TOUR-SONG
+const TOUR_SONG = 6;
+const TOUR = [
+  { unit: "STEP", at: { pad: 41 }, done: ev => ev.includes("pad STEP 41"),
+    say: "Step, on the left, holds seven songs. To choose one, press <b>SONG</b>." },
+  { unit: "STEP", at: { enc: 0 }, done: ev => ev.includes("turn STEP 0"),
+    needs: t => t.stepOnSong, first: { pad: 41, say: "First press <b>SONG</b>: encoder 1 chooses a song only on the SONG page." },
+    say: `Turn <b>encoder 1</b> to song ${TOUR_SONG + 1}, ${SONGS[TOUR_SONG][0]}: drag it up or down, or scroll over it.` },
+  { unit: "STEP", at: { enc: 0 }, done: (ev, t) => t.song === TOUR_SONG,
+    needs: t => t.stepOnSong, first: { pad: 41, say: "First press <b>SONG</b>: the song is loaded from the SONG page." },
+    say: t => t.song !== 0 && t.song !== TOUR_SONG
+      ? `That's song ${t.song + 1}. Turn <b>encoder 1</b> on to song ${TOUR_SONG + 1}, ${SONGS[TOUR_SONG][0]}, and push it again.`
+      : `Push <b>encoder 1</b> to load song ${TOUR_SONG + 1}: right-click it. Its units join the row.` },
+  { unit: "STEP", at: { pad: 29 }, done: (ev, t) => t.playing,
+    say: "Press <b>PLAY</b> to hear it." },
+  { unit: "synth", at: { pad: 43 }, done: (ev, t) => ev.includes(`pad ${t.synth} 43`),
+    say: t => `This is ${NOTES[t.synth].name}. Press <b>SOUNDS</b> for its factory sounds.` },
+  { unit: "synth", at: { enc: 1 }, done: (ev, t) => ev.includes(`turn ${t.synth} 1`),
+    needs: t => t.onSounds[t.synth], first: { pad: 43, say: "First press <b>SOUNDS</b>: encoder 2 chooses a sound on the SOUNDS page." },
+    say: "Turn <b>encoder 2</b> to another sound, and listen: the song plays on with it." },
+  { final: true,
+    say: t => `That's the start. Everything else is in the books, which you can keep open in another window as you go. ` +
+              `Nothing here is kept when you leave, so try anything.` },
+];
+
+// ---- the working parts ----------------------------------------------------------------
+const $ = id => document.getElementById(id);
+let changed = false, notesHidden = false, shownType = null, shownSong = null;
+var Module = {
+  canvas: $("canvas"),
+  // where tessel.wasm and tessel.data are (on the website: the try/ folder; standing alone: here)
+  locateFile: p => (window.TESSEL_DIR || "") + p,
+  noInitialRun: true,
+  setStatus: t => { if (t && !Module.started) $("song").textContent = t; },
+  // ready: Start can be pressed (until then it says Loading..., so nothing is started too soon)
+  onRuntimeInitialized: () => { $("go").disabled = false; $("go").textContent = "Start (switches the sound on)"; },
+  print: t => console.log(t), printErr: t => console.warn(t),
+};
+if (matchMedia("(pointer: coarse)").matches || innerWidth < 700) $("phone").style.display = "";
+// If it can't start, say so instead of doing nothing.
+function trouble(why) {
+  const t = $("trouble");
+  if (!t) return;
+  t.style.display = "";
+  t.innerHTML = `<b>It didn't start.</b> ${why} Try reloading the page; if it still won't start, it may need a newer browser.`;
+}
+addEventListener("error", e => { if (!Module.started) trouble(""); console.warn(e.message); });
+setTimeout(() => { if ($("go") && $("go").disabled) trouble("It's taking a long time to load."); }, 45000);
+if (location.protocol === "file:")   // (a browser won't run the emulator from a page opened as a file)
+  trouble("This page was opened from a file on the computer, and browsers only run it from a web server. " +
+          "In Terminal: <code>python3 website/build.py --serve</code>, then open http://localhost:8124/try.html.");
+
+function size() {   // the emulator gets the space below the bar
+  const top = document.querySelector("#site-top");   // (the website's menu and draft bars, if there)
+  $("app").style.top = (top ? top.getBoundingClientRect().height : 0) + "px";
+  const r = $("stage").getBoundingClientRect();
+  const w = Math.round(r.width), h = Math.round(r.height);
+  Module._tessel_set_view(w, h);
+  // On a high-resolution screen SDL makes the canvas two (or more) pixels per point; it's
+  // shown at the size in points, so its shape stays right.
+  const c = $("canvas");
+  c.style.width = w + "px";
+  c.style.height = h + "px";
+  place();
+}
+function place() {   // the notes: below the strip, beside the unit in front
+  $("notes").style.left = (Module._tessel_notes_left() + 4) + "px";
+  $("notes").style.top = (Module._tessel_notes_top() + 22) + "px";
+}
+function bookLink(type) {
+  const n = NOTES[type];
+  if (n.book === "music") {
+    const c = SONGS[Math.max(0, shownSong || 0)][1];
+    return `Read more: <a href="${BOOKS}making-music/index.html#ch${c}" target="_blank"><i>Making Music</i>, chapter ${c}</a> (opens in a new window).`;
+  }
+  return `Read more: <a href="${BOOKS}making-sounds/index.html#ch${n.ch}" target="_blank"><i>Making Sounds</i>, chapter ${n.ch}</a> (opens in a new window).`;
+}
+function showNotes() {
+  if (tourAt >= 0 && tourAt < TOUR.length) return;   // (the tour has the space while it's on)
+  const n = NOTES[shownType];
+  $("notes").style.display = notesHidden || !n ? "none" : "";
+  $("shownotes").style.display = notesHidden ? "" : "none";
+  if (!n) { $("notes").innerHTML = ""; return; }
+  $("notes").innerHTML = `<h2>${n.name}</h2><p class="kind">${n.kind}</p><dl>` +
+    n.tips.map(([t, d]) => `<dt>${t}</dt><dd>${d}</dd>`).join("") + `</dl><p class="more">${bookLink(shownType)}</p>` +
+    `<span class="hide" id="hidenotes">Hide these notes</span>`;
+  $("hidenotes").onclick = () => { notesHidden = true; showNotes(); };
+}
+function poll() {   // which unit is in front, and which song is loaded
+  const type = Module.UTF8ToString(Module._tessel_focus_type());
+  const song = Module._tessel_song();
+  if (type !== shownType || song !== shownSong) {
+    shownType = type; shownSong = song;
+    const s = SONGS[song];
+    $("song").innerHTML = s ? `Song ${song + 1}: ${s[0][0] + s[0].slice(1).toLowerCase()} <em>change it on Step's SONG page</em>`
+                            : `Your own song <em>on Step's SONG page</em>`;
+    showNotes();
+  }
+}
+let tourAt = -1, tourSong = null;
+const tourState = { songMoved: false, playing: false, synth: null, stepOnSong: false, onSounds: {} };
+function rowTypes() {
+  const n = Module._tessel_items(), out = [];
+  for (let i = 0; i < n; i++) out.push(Module.UTF8ToString(Module._tessel_item_type(i)));
+  return out;
+}
+// While the tour's on, only the control it asks for answers; the bar's switches wait too.
+function allow(kind, type, index) { Module.ccall("tessel_tour_allow", null, ["number", "string", "number"], [kind, type, index]); }
+function tourShow() {
+  const t = TOUR[tourAt];
+  document.body.classList.toggle("touring", !!t && !t.final);
+  if (!t || t.final) allow(0, "", -1);
+  if (!t) { $("tour").style.display = "none"; $("arrow").style.display = "none"; showNotes(); return; }
+  $("notes").style.display = "none";
+  $("shownotes").style.display = "none";
+  const say = typeof t.say === "function" ? t.say(tourState) : t.say;
+  const chapter = SONGS[Math.max(0, shownSong || 0)][1];
+  $("tour").innerHTML = `<div class="step">${t.final ? "THAT'S IT" : (tourAt + 1) + " OF " + (TOUR.length - 1)}</div>` +
+    `<p id="tsay">${say}</p>` +
+    (t.final ? `<a class="btn red" href="${BOOKS}making-music/index.html#ch${chapter}" target="_blank" id="tbook">Open <i>Making Music</i>, chapter ${chapter}</a>` +
+               `<button class="btn" id="tdone">Finish</button>`
+             : `<button class="btn" id="tskip">Skip the tour</button>`);
+  $("tour").style.display = "block";
+  if ($("tskip")) $("tskip").onclick = () => { tourAt = TOUR.length; tourShow(); };
+  if ($("tdone")) $("tdone").onclick = () => { tourAt = TOUR.length; tourShow(); };
+  if ($("tbook")) $("tbook").addEventListener("click", () => setTimeout(() => { tourAt = TOUR.length; tourShow(); }, 300));
+}
+function tourTick() {   // every few frames: has the step been done, and where should the arrow go?
+  if (tourAt < 0 || tourAt >= TOUR.length) return;
+  const ev = Module.UTF8ToString(Module._tessel_take_events());
+  tourState.playing = Module._tessel_playing() === 1;
+  tourState.stepOnSong = Module._tessel_step_on_song() === 1;
+  // which units are on their SOUNDS page: SOUNDS (pad 43) pressed, and no other page since
+  for (const line of ev.split("\n")) {
+    const [kind, type, n] = line.split(" ");
+    if (kind === "pad" && +n >= 27 && +n <= 44) tourState.onSounds[type] = +n === 43;
+  }
+  const song = Module._tessel_song();
+  if (tourSong !== null && song !== tourSong) tourState.songMoved = true;
+  tourSong = song;
+  tourState.song = song;
+  const types = rowTypes();
+  tourState.synth = SYNTHS.find(s => types.includes(s)) || "STRIKE";
+  const t = TOUR[tourAt];
+  if (!t.final && t.done(ev, tourState)) { tourAt++; tourShow(); return; }
+  if (t.final) { $("arrow").style.display = "none"; return; }
+  // the control, or (if another unit must come forward first) that unit in the row
+  const want = t.unit === "synth" ? tourState.synth : t.unit;
+  let x, y, msg = null;
+  let at = t.at;
+  if (shownType !== want) {
+    const i = types.indexOf(want);
+    x = Module._tessel_strip_x(i); y = Module._tessel_strip_y(i);
+    msg = `First bring ${NOTES[want].name} forward: click it in the row.`;
+    allow(3, want, 0);
+  } else {
+    if (t.needs && !t.needs(tourState)) { at = t.first; msg = t.first.say; }
+    if (at.pad !== undefined) { x = Module._tessel_pad_x(at.pad); y = Module._tessel_pad_y(at.pad); allow(1, want, at.pad); }
+    else { x = Module._tessel_enc_x(at.enc); y = Module._tessel_enc_y(at.enc); allow(2, want, at.enc); }
+  }
+  const say = typeof t.say === "function" ? t.say(tourState) : t.say;
+  if ($("tsay")) $("tsay").innerHTML = msg || say;
+  // The message goes next to the control (owner, 2 Nov 2026), over whatever's there: to the
+  // right of a control on the unit in front, or just below a unit in the strip. The arrow runs
+  // from the message's nearest edge to the ring. GAP: how far the message sits from the control.
+  const GAP = 70;
+  const stage = $("stage").getBoundingClientRect(), box = $("tour");
+  const bw = box.offsetWidth, bh = box.offsetHeight;
+  const inStrip = shownType !== want;
+  let bx, by;
+  if (inStrip) { bx = x - bw / 2; by = Module._tessel_notes_top() + 30; }
+  else { bx = x + GAP; by = y - bh / 2; }
+  bx = Math.max(10, Math.min(stage.width - bw - 10, bx));
+  by = Math.max(10, Math.min(stage.height - bh - 10, by));
+  box.style.left = bx + "px"; box.style.top = by + "px"; box.style.right = "auto";
+  const fx = inStrip ? Math.max(bx + 20, Math.min(bx + bw - 20, x)) : bx;
+  const fy = inStrip ? by : Math.max(by + 20, Math.min(by + bh - 20, y));
+  const dx = x - fx, dy = y - fy, len = Math.hypot(dx, dy) || 1;
+  $("aline").setAttribute("x1", fx); $("aline").setAttribute("y1", fy);
+  $("aline").setAttribute("x2", x - dx / len * 36); $("aline").setAttribute("y2", y - dy / len * 36);
+  $("aring").setAttribute("cx", x); $("aring").setAttribute("cy", y);
+  $("arrow").style.display = "block";
+}
+function seg(id, fn) {
+  $(id).querySelectorAll("button").forEach(b => b.onclick = () => {
+    $(id).querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b));
+    fn(+b.dataset.v);
+  });
+}
+seg("panels", v => Module._tessel_set_deluxe(v));
+seg("turn", v => Module._tessel_set_turned(v));
+$("howbtn").onclick = () => $("howto").style.display = "flex";
+$("howclose").onclick = () => $("howto").style.display = "none";
+$("shownotes").onclick = () => { notesHidden = false; showNotes(); };
+$("again").onclick = () => { if (!changed || confirm("Start again? Everything you've changed will be lost.")) { changed = false; location.reload(); } };
+$("canvas").addEventListener("pointerdown", () => changed = true);
+addEventListener("keydown", () => { if (Module.started) changed = true; });
+addEventListener("beforeunload", e => { if (changed) { e.preventDefault(); e.returnValue = ""; } });
+$("go").onclick = () => {
+  if (typeof Module.callMain !== "function") { trouble("It hadn't finished loading."); return; }
+  $("start").remove();
+  Module.started = true;
+  Module.callMain([]);
+  Module._tessel_set_deluxe(1);   // deluxe panels to start with (owner, 2 Nov 2026): easier to read
+  size();
+  addEventListener("resize", size);
+  setInterval(() => { poll(); place(); }, 250);
+  poll();
+  Module._tessel_take_events();   // (nothing done before the tour counts)
+  tourAt = 0; tourShow();
+  setInterval(tourTick, 150);
+};
+</script>
+<script>   // the emulator itself (from the try/ folder on the website)
+  const tessel = document.createElement("script");
+  tessel.src = (window.TESSEL_DIR || "") + "tessel.js";
+  tessel.async = true;
+  document.body.appendChild(tessel);
+</script>
+</body></html>

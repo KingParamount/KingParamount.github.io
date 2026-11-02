@@ -1,0 +1,86 @@
+/* book-web.css - how the three books look when read on the website (owner, 2 Nov 2026).
+
+   The books are built for print (Making Sounds and Making Music as A4 books, the Quick Start as
+   an A5 booklet). On the website they get the site's menu bar at the top and footer at the
+   bottom, and their text runs as wide as the site's other pages instead of stopping at the
+   printed page's width. Only the website's copies change: the books and their PDFs don't.
+
+   Numbers you may want to change:
+     --book-width   the widest the text goes (the site's other pages use 1100px)
+     --book-text    the text size on screen
+*/
+:root{
+  --book-width:1100px;
+  --book-text:17px;
+  --ui-dark:#3a3c40;        /* the site's header and footer colour (charcoal, as website/style.css) */
+  --ui-red-bright:#ff5a4a;
+}
+
+/* ---- the site's menu bar, draft bar and footer (the same as website/style.css, under their
+        own class names so they never clash with the books' own styles) ---- */
+html{scroll-padding-top:80px}   /* a contents link lands below the menu bar, not under it */
+.ui-top{background:var(--ui-dark);display:flex;align-items:center;justify-content:space-between;gap:24px;
+  padding:16px 24px;flex-wrap:wrap;position:sticky;top:0;z-index:5;font-size:16px;line-height:1.4}
+.ui-top .brand img{height:22px;display:block}
+.ui-top nav{display:flex;gap:4px 20px;flex-wrap:wrap}
+.ui-top nav a{color:#d7d8de;text-decoration:none;font:500 .95rem "Space Grotesk",sans-serif}
+.ui-top nav a:hover,.ui-top nav a.on{color:#fff}
+.ui-top nav a.on{box-shadow:0 2px 0 var(--ui-red-bright)}
+.ui-draft{background:#fff4d6;color:#6b5300;text-align:center;font:.85rem/1.4 "Karla",sans-serif;padding:6px 16px}
+.ui-draft a{color:#6b5300}
+.ui-foot{background:var(--ui-dark);color:#c9cad0;padding:40px 24px;text-align:center;margin-top:60px;
+  font:16px/1.6 "Karla",sans-serif}
+.ui-foot img{width:44px;margin-bottom:12px}
+.ui-foot b{color:#fff;letter-spacing:.1em}
+.ui-foot p{margin:0 0 .6em}
+.ui-foot .small{font-size:.86rem;color:#8d8f98}
+
+/* ---- Making Sounds and Making Music ---- */
+body.web-book{font-size:var(--book-text)}
+body.web-book .wrap{max-width:var(--book-width);padding-left:24px;padding-right:24px}
+
+/* ---- the contents down the left of the big books (owner, 2 Nov 2026). Shown only on screens
+        wide enough for it beside the text (SIDE-SHOW); --side-width is how wide it is. ---- */
+:root{--side-width:290px}
+.web-side{display:none}
+@media (min-width:1150px){   /* SIDE-SHOW */
+  .web-side{display:block;position:fixed;left:0;bottom:0;top:54px;width:var(--side-width);overflow-y:auto;
+    background:#fff;border-right:1px solid #dfe0dc;padding:16px 14px 40px 18px;z-index:4;
+    font:14px/1.35 "Karla",sans-serif}
+  body.web-book .wrap{margin-left:calc(var(--side-width) + max(24px, (100vw - var(--side-width) - var(--book-width)) / 2));
+    margin-right:auto}
+  body.web-book .ui-foot{margin-left:var(--side-width)}
+}
+.web-side a{color:#2b2d36;text-decoration:none;display:block;border-radius:4px}
+.web-side a:hover{background:#f0eff8}
+.web-side a.top{font:700 15px "Space Grotesk",sans-serif;margin-bottom:8px;padding:3px 6px}
+.web-side details{margin:2px 0}
+.web-side summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:4px}
+.web-side summary::-webkit-details-marker{display:none}
+.web-side summary::before{content:"\25B8";color:#8d8f98;font-size:11px;width:10px;flex:none;transition:transform .15s}
+.web-side details[open] > summary::before{transform:rotate(90deg)}
+.web-side summary a{font:600 14px "Space Grotesk",sans-serif;padding:4px 6px;flex:1}
+.web-side .sec{padding:3px 6px 3px 22px;color:#4c4f5a;font-size:13.5px}
+.web-side .toc-num{display:inline-block;min-width:2.3em;color:#8d8f98}
+.web-side a.on{color:#4a3f8f;background:#ebe8fb}
+
+/* ---- the Quick Start: its A5 pages become one long page ---- */
+body.web-quick{background:#fff;--text:var(--book-text)}
+body.web-quick .page{width:auto;max-width:var(--book-width);min-height:0;margin:0 auto;padding:40px 24px;
+  break-after:auto;font-size:var(--book-text)}
+body.web-quick .page + .page{border-top:1px solid var(--rule)}
+body.web-quick .folio{display:none}
+body.web-quick h2{font-size:1.9rem;padding-bottom:6px;margin-bottom:14px}
+body.web-quick h3{font-size:1.2rem;margin:22px 0 6px}
+body.web-quick p, body.web-quick li{margin-bottom:.6em}
+body.web-quick ol.steps>li{padding-left:2em}
+body.web-quick ol.steps>li::before{width:1.4em;height:1.4em;font-size:.8em;line-height:1.4em;top:.15em}
+body.web-quick small, body.web-quick .small{font-size:.86rem}
+body.web-quick .b{font-size:.75em;padding:.25em .45em .2em}
+body.web-quick .scr{font-size:.85em}
+body.web-quick .note, body.web-quick .draft{font-size:.95em;padding:10px 14px}
+body.web-quick .row{gap:28px}
+body.web-quick .cover{background:var(--ui-dark);padding:48px 24px;max-width:none;text-align:center}
+body.web-quick .cover h1{font-size:clamp(2.6rem,7vw,4.5rem)}
+body.web-quick .cover img{max-width:900px;margin:24px auto}
+@media (max-width:700px){body.web-quick .row{flex-direction:column}}

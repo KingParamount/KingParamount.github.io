@@ -1,0 +1,203 @@
+/* The Tessel website's look (1 Nov 2026): Utopian Instruments' logo colours (near-black,
+   white and its red) for the frame; each unit's page takes its panel family's colour
+   (--accent, set on the page). Typefaces: Space Grotesk for headings, Karla for text,
+   as the manuals. Colours you may want to change are the first lines. */
+
+:root{
+  --ink:#16171b;          /* text */
+  --ink-soft:#5c5f6a;
+  --dark:#3a3c40;         /* the header, footer and dark bands: charcoal, as behind the unit pictures
+                             (owner, 2 Nov 2026; was the logo's near-black #1d1e23) */
+  --charcoal:#3a3c40;     /* behind pictures of the units, so the black units stand out (owner,
+                             2 Nov 2026); the same as the emulator's desk (colour_desk in
+                             layout/panel_geometry.txt), so the pictures blend into it */
+  --paper:#f6f6f3;        /* the page */
+  --white:#ffffff;
+  --red:#d8342b;          /* the logo's red: links, buttons */
+  --red-bright:#ff5a4a;   /* the red on dark backgrounds */
+  --rule:#dfe0dc;
+  --accent:#3a3c40;       /* a unit page's family colour (set by the page) */
+  --on-accent:#ffffff;
+  --wrap:1100px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 "Karla",system-ui,sans-serif}
+h1,h2,h3{font-family:"Space Grotesk",sans-serif;line-height:1.15;margin:0 0 .5em}
+h1{font-size:clamp(2.2rem,5vw,3.6rem);letter-spacing:-.01em}
+h2{font-size:clamp(1.6rem,3.4vw,2.3rem)}
+h3{font-size:1.2rem;margin-top:1.6em}
+p{margin:0 0 1em}
+a{color:var(--red)}
+img{max-width:100%;height:auto}
+.small{font-size:.86rem;color:var(--ink-soft)}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+.lead{font-size:1.2rem}
+
+/* header and footer */
+.top{background:var(--dark);display:flex;align-items:center;justify-content:space-between;gap:24px;
+  padding:16px 24px;flex-wrap:wrap;position:sticky;top:0;z-index:5}
+.brand img{height:22px;display:block}
+.top nav{display:flex;gap:4px 20px;flex-wrap:wrap}
+.top nav a{color:#d7d8de;text-decoration:none;font:500 .95rem "Space Grotesk",sans-serif}
+.top nav a:hover,.top nav a.on{color:var(--white)}
+.top nav a.on{box-shadow:0 2px 0 var(--red-bright)}
+.draftbar{background:#fff4d6;color:#6b5300;text-align:center;font-size:.85rem;padding:6px 16px}
+footer{background:var(--dark);color:#c9cad0;padding:40px 24px;text-align:center;margin-top:80px}
+footer .sym{width:44px;margin-bottom:12px}
+footer b{color:var(--white);letter-spacing:.1em}
+footer .small{color:#8d8f98}
+
+/* animations (owner, 2 Nov 2026): a section fades up as it scrolls into view; the opening fades
+   in on arrival. Only when <html> has the "motion" class (set by the page's script: never with
+   "reduce motion" on, or after the footer's "Turn animations off"). RISE-TIME is how long a fade
+   takes, RISE-DISTANCE how far it rises. */
+:root{--rise-time:.9s;--rise-distance:28px}
+.motion .rise{opacity:0;transform:translateY(var(--rise-distance));
+  transition:opacity var(--rise-time) ease-out,transform var(--rise-time) ease-out}
+.motion .rise.shown{opacity:1;transform:none}
+.motion .rise.shown .cols > *{animation:rise-in var(--rise-time) ease-out both}
+.motion .rise.shown .cols > :nth-child(2){animation-delay:.15s}
+.motion .rise.shown .cols > :nth-child(3){animation-delay:.3s}
+.motion .hero h1,.motion .hero .tag{animation:rise-in 1s ease-out both}
+.motion .hero .tag{animation-delay:.2s}
+.motion .hero img{animation:hero-in 1.4s ease-out .35s both}
+@keyframes rise-in{from{opacity:0;transform:translateY(var(--rise-distance))}to{opacity:1;transform:none}}
+@keyframes hero-in{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+.motion-switch{color:#8d8f98}
+
+/* pictures that take turns (owner, 2 Nov 2026): stacked, one showing at a time. Without
+   animations only the first shows. Each picture fades into the next (FADE-TIME), the captions
+   with them. */
+:root{--fade-time:.9s}
+.cycle{position:relative}
+.cycle img{display:block;width:100%}
+.cycle img + img{position:absolute;inset:0;opacity:0;pointer-events:none}
+.motion .cycle img{opacity:0;pointer-events:none}
+.motion .cycle img.on{opacity:1;pointer-events:auto}
+.motion .cycle.fade img{transition:opacity var(--fade-time) ease-in-out}
+.cycle-caption{font-family:"Space Grotesk",sans-serif;text-align:center;margin-top:10px;font-size:1rem;
+  display:grid}
+.cycle-caption > span{grid-area:1/1;opacity:0;transition:opacity var(--fade-time) ease-in-out}
+.cycle-caption > span.on{opacity:1}
+.cycle-caption b{display:block;font-size:1.2rem}
+/* the deluxe band: plain panels slowly becoming printed ones and back (PANEL-SWAP: one whole
+   round, plain and back). Without animations, the printed row shows. */
+:root{--panel-swap:12s}
+.fadepair{position:relative;max-width:1400px}
+.fadepair img{display:block;width:100%}
+.fadepair img.top{position:absolute;inset:0}
+.fadepair-label{text-align:center;font-family:"Space Grotesk",sans-serif;margin-top:12px;position:relative;height:1.6em}
+.fadepair-label span{position:absolute;left:0;right:0}
+.fadepair-label .plain{opacity:0}
+.motion .fadepair-label .plain{opacity:1}
+.motion .fadepair img.top{animation:swap var(--panel-swap) ease-in-out infinite}
+.motion .fadepair-label .printed{animation:swap var(--panel-swap) ease-in-out infinite}
+.motion .fadepair-label .plain{animation:swap-off var(--panel-swap) ease-in-out infinite}
+@keyframes swap{0%,38%{opacity:0}50%,88%{opacity:1}100%{opacity:0}}
+@keyframes swap-off{0%,38%{opacity:1}50%,88%{opacity:0}100%{opacity:1}}
+
+/* the home page's crossfade (owner, 2 Nov 2026): the sections after the opening sit in a frame
+   pinned under the menu bar, and each dissolves into the next as you scroll; the page still
+   scrolls normally (its length and scroll bar are real). A section taller than the window
+   scrolls through first. Only when the script has switched it on (class xf-on). */
+.xf-on{position:relative}
+.xf-on .xf-box{position:sticky;top:var(--xf-top,54px);height:var(--xf-h,90vh);overflow:hidden}
+.xf-on .xf-box > section{position:absolute;left:0;right:0;top:0;min-height:var(--xf-h,90vh);margin:0;
+  display:flex;flex-direction:column;justify-content:center;background:var(--paper);will-change:opacity,transform}
+.xf-on .xf-box > section.dark{background:var(--dark)}
+.xf-on .xf-box > section.charcoal,.xf-on .xf-box > section.hero{background:var(--charcoal)}
+.xf-on .xf-box > section.hero{padding-bottom:36px}
+/* the opening's picture when it has the frame to itself (owner, 2 Nov 2026: a bit taller); HERO-TALL */
+.xf-on .hero img{height:clamp(240px,52vh,620px)}
+.xf-on .xf-box > section > .wrap{width:100%}
+.xf-on ~ footer{margin-top:0}
+
+/* sections */
+.band{padding:72px 0}
+.band.dark{background:var(--dark);color:#e7e8ec}
+.band.dark h2{color:var(--white)}
+.band.dark a{color:var(--red-bright)}
+.hero{background:var(--charcoal);color:var(--white);padding:36px 0 0;text-align:center;overflow:hidden}
+.hero h1{font-size:clamp(2.6rem,7vw,5rem);letter-spacing:.14em;margin:0}
+.hero .tag{font:500 clamp(1rem,2vw,1.3rem) "Space Grotesk",sans-serif;color:#cfd0d8;margin:.3em 0 1.2em}
+/* The opening picture is a deep strip, not the whole row (owner, 2 Nov 2026): HERO's height
+   is how much of the row shows (the top of it: screens and encoders), fading out below. */
+.hero img{width:min(1400px,100%);height:clamp(200px,36vh,400px);object-fit:cover;object-position:50% 0;
+  display:block;margin:0 auto;-webkit-mask-image:linear-gradient(to bottom,#000 70%,transparent);
+  mask-image:linear-gradient(to bottom,#000 70%,transparent)}
+.button{display:inline-block;background:var(--red);color:var(--white);text-decoration:none;
+  font:600 1rem "Space Grotesk",sans-serif;padding:12px 22px;border-radius:6px;margin:4px}
+.button.ghost{background:transparent;color:inherit;box-shadow:inset 0 0 0 2px currentColor}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:32px}
+.step-n{font:700 2.4rem "Space Grotesk",sans-serif;color:var(--red)}
+.pic-wide{display:block;margin:24px auto 0}
+
+/* the range */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:20px}
+.card{background:var(--white);border-radius:10px;text-decoration:none;color:var(--ink);padding:16px 16px 14px;
+  display:flex;flex-direction:column;align-items:center;box-shadow:0 1px 3px rgba(0,0,0,.08);
+  border-top:6px solid var(--accent);transition:transform .15s}
+.card:hover{transform:translateY(-3px)}
+.card img{height:250px;width:auto;margin-bottom:10px;border-radius:6px}
+.cname{font:700 1.25rem "Space Grotesk",sans-serif}
+.ckind{font-size:.9rem;color:var(--ink-soft);text-align:center}
+
+/* a unit's page: where you are, and every unit a click away */
+.crumbs{padding-top:14px;padding-bottom:10px;font-size:.88rem;color:var(--ink-soft)}
+.crumbs a{color:var(--ink-soft)}
+.unitbar{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);background:var(--white)}
+.unitbar .wrap{display:flex;gap:4px 18px;flex-wrap:wrap;padding-top:8px;padding-bottom:8px}
+.unitbar a{text-decoration:none;color:var(--ink-soft);font:500 .95rem "Space Grotesk",sans-serif}
+.unitbar a:hover{color:var(--ink)}
+.unitbar a.on{color:var(--ink);box-shadow:0 2px 0 var(--accent)}
+/* a unit's page */
+.unithead{background:var(--accent);color:var(--on-accent);padding:48px 0 36px}
+.unithead .family{font:600 .85rem "Space Grotesk",sans-serif;letter-spacing:.12em;text-transform:uppercase;opacity:.75;margin:0}
+.unithead h1{margin:.1em 0}
+.unithead .kind{font:500 1.3rem "Space Grotesk",sans-serif;opacity:.9;margin:0}
+.unit{display:grid;grid-template-columns:auto 1fr;gap:48px;padding-top:40px;padding-bottom:20px}
+@media (max-width:760px){.unit{grid-template-columns:1fr}}
+/* The unit pictures' size on the page (owner, 2 Nov 2026: life-size was overwhelming).
+   UNIT-PIC is a unit's width; the Root is drawn to the same scale (48 of a unit's 74 mm).
+   Click a picture to see it large. */
+:root{--unit-pic:220px}
+.unitpic{width:var(--unit-pic)}
+.unitpic.root{width:calc(var(--unit-pic) * 48 / 74)}
+.unitpic img{width:100%;filter:drop-shadow(0 6px 14px rgba(0,0,0,.25));cursor:zoom-in}
+.unitpic .small{width:var(--unit-pic)}
+@media (max-width:760px){.unitpic{margin:0 auto}}
+/* the large view: the picture filling the window, click or Esc to close */
+.zoombox{position:fixed;inset:0;background:rgba(20,21,25,.92);display:none;align-items:center;justify-content:center;
+  z-index:20;cursor:zoom-out;padding:24px}
+.zoombox.open{display:flex}
+.zoombox img{max-height:100%;max-width:100%;width:auto;height:100%;object-fit:contain}
+.points{padding-left:1.2em}
+.points li{margin:.3em 0}
+.prevnext{display:flex;justify-content:space-between;padding-top:24px;padding-bottom:0;font-family:"Space Grotesk",sans-serif}
+.prevnext a{text-decoration:none}
+
+/* sounds */
+.tracks{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
+.track{margin:0;background:var(--white);border-radius:10px;padding:14px;color:var(--ink)}
+.track audio{width:100%;margin-bottom:6px}
+.band.charcoal{background:var(--charcoal);color:#e7e8ec}
+.band.charcoal h2{color:var(--white)}
+.band.dark .track{background:#2a2b31;color:#e7e8ec}
+
+/* the founder's photo on About, beside the opening (a stand-in for now, owner 2 Nov 2026) */
+.founder{float:right;width:240px;margin:6px 0 20px 32px}
+.founder img{width:100%;border-radius:10px;display:block}
+.founder figcaption{font-size:.86rem;color:var(--ink-soft);text-align:center;margin-top:6px}
+@media (max-width:600px){.founder{float:none;margin:0 auto 20px}}
+
+/* boxes and tables */
+.note{background:var(--white);border-left:4px solid var(--red);padding:14px 18px;border-radius:4px;margin:16px 0}
+.placeholder{border:2px dashed #b9bbc2;border-radius:8px;padding:14px 18px;color:var(--ink-soft);margin:12px 0}
+table{border-collapse:collapse;width:100%}
+td,th{padding:10px 12px 10px 0;border-bottom:1px solid var(--rule);vertical-align:top;text-align:left}
+td:first-child{font:600 1rem "Space Grotesk",sans-serif;white-space:nowrap;width:1%;padding-right:24px}
+blockquote{margin:0 0 1em;padding:0 0 0 18px;border-left:3px solid var(--rule)}
+.licence{font-size:.82rem;color:var(--ink-soft)}
+.books{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px}
+.book{background:var(--white);border-radius:10px;padding:24px}
