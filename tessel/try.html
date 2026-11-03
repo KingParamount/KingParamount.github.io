@@ -104,7 +104,7 @@
     <h1>How to play</h1>
     <dl>
       <dt>Buttons and keys</dt><dd>Click them. Shift-click a key to hold it down; click it again to let go.</dd>
-      <dt>Encoders</dt><dd>Drag up or down to turn one, or use the scroll wheel over it. Right-click to push it.</dd>
+      <dt>Encoders</dt><dd>Drag up or down to turn one, or use the scroll wheel over it. To push one, click or tap it without moving; to hold the push, press it and keep still. Right-click pushes it too.</dd>
       <dt>Your computer's keyboard</dt><dd>Z to M and Q to O play the keys of the unit in front; [ and ] are OCT- and OCT+.</dd>
       <dt>Another unit</dt><dd>Click it in the row along the top to bring it forward. Every unit keeps playing.</dd>
       <dt>Another song</dt><dd>On Step, press SONG, turn encoder 1 to the song, then push encoder 1 to load it.</dd>
@@ -179,7 +179,7 @@ const TOUR = [
     needs: t => t.stepOnSong, first: { pad: 41, say: "First press <b>SONG</b>: the song is loaded from the SONG page." },
     say: t => t.song !== 0 && t.song !== TOUR_SONG
       ? `That's song ${t.song + 1}. Turn <b>encoder 1</b> on to song ${TOUR_SONG + 1}, ${SONGS[TOUR_SONG][0]}, and push it again.`
-      : `Push <b>encoder 1</b> to load song ${TOUR_SONG + 1}: right-click it. Its units join the row.` },
+      : `Push <b>encoder 1</b> to load song ${TOUR_SONG + 1}: click or tap it without turning it. Its units join the row.` },
   { unit: "STEP", at: { pad: 29 }, done: (ev, t) => t.playing,
     say: "Press <b>PLAY</b> to hear it." },
   { unit: "synth", at: { pad: 43 }, done: (ev, t) => ev.includes(`pad ${t.synth} 43`),
