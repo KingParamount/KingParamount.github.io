@@ -59,8 +59,13 @@ try { if (localStorage.getItem("tessel-motion") !== "off" &&
 <section class="band charcoal"><div class="wrap rise">
   <h2>Deluxe panels</h2>
   <p>Every unit comes with the standard panel: black, with a white area under the buttons where you write their names on by hand. If you'd like something smarter, deluxe panels, with every name printed, are available as an upgrade, in a colour for each family: blue for the synths, white for the drums and samplers, purple for Step and Pilot, and green for Haze.</p>
-  <div class="fadepair pic-wide"><img src="img/chain.png" alt="A row with the standard panels"><img class="top" src="img/chain-deluxe.png" alt="The same row with deluxe panels"></div>
-  <p class="fadepair-label"><span class="plain">Standard panels, as every unit comes</span><span class="printed">Deluxe panels, an optional upgrade</span></p>
+  <div class="wipe pic-wide" style="--wipe:0%">
+    <img src="img/chain.png" alt="A row with the standard panels">
+    <img class="deluxe" src="img/chain-deluxe.png" alt="The same row with deluxe panels">
+    <div class="wipe-bar"><span class="wipe-grip">&#9664;&#9654;</span></div>
+    <input type="range" min="0" max="100" step="0.1" value="0" aria-label="Wipe between the standard and deluxe panels">
+  </div>
+  <p class="wipe-label"><span>&#9664; Standard panels, as every unit comes</span><span>Drag the bar</span><span>Deluxe panels, an optional upgrade &#9654;</span></p>
 </div></section>
 
 <section class="band"><div class="wrap rise" style="text-align:center">
@@ -77,7 +82,7 @@ try { if (localStorage.getItem("tessel-motion") !== "off" &&
 <script>
 // Click a unit's picture to see it filling the window; click again or press Esc to close.
 const box = document.getElementById("zoombox");
-document.querySelectorAll(".unitpic img, .fadepair img").forEach(img => img.addEventListener("click", () => {
+document.querySelectorAll(".unitpic img").forEach(img => img.addEventListener("click", () => {
   box.querySelector("img").src = img.src; box.querySelector("img").alt = img.alt; box.classList.add("open");
 }));
 box.addEventListener("click", () => box.classList.remove("open"));
@@ -116,6 +121,32 @@ if (root.classList.contains("motion")) {
     }, +stack.dataset.every || 2000);
   });
 }
+// The deluxe band's wipe: the range control lying over the picture sets where the bar is.
+document.querySelectorAll(".wipe").forEach(w => {
+  const input = w.querySelector("input");
+  const set = v => w.style.setProperty("--wipe", v + "%");
+  input.addEventListener("input", () => { hinted = true; set(input.value); });
+  // WIPE-HINT: once, the first time the picture is well in view, the bar slides this far in
+  // and back, so it's plain it can be moved (only with animations on, and not once touched)
+  const WIPE_HINT = 30;
+  let hinted = !root.classList.contains("motion");
+  function hint() {
+    if (hinted) return;
+    const r = w.getBoundingClientRect();
+    if (r.top > innerHeight * 0.6 || r.bottom < innerHeight * 0.4 || getComputedStyle(w.closest("section")).opacity < 0.9) return;
+    hinted = true;
+    const start = performance.now(), TIME = 1800;
+    (function step(now) {
+      if (input.dataset.touched) return;
+      const q = Math.min(1, (now - start) / TIME);
+      const v = q < 1 ? WIPE_HINT * Math.sin(Math.PI * q) : 0;
+      set(v); input.value = v;
+      if (q < 1) requestAnimationFrame(step);
+    })(start);
+  }
+  input.addEventListener("pointerdown", () => input.dataset.touched = 1);
+  addEventListener("scroll", hint, {passive: true}); setTimeout(hint, 1000);
+});
 // The home page's crossfade. The frame (.xf-box) stays pinned under the menu bar while its
 // stage scrolls past; inside it, every section lies at the top, and the scroll position sets
 // which one shows: a tall section first scrolls through its own content, then over the next

@@ -23,7 +23,8 @@ try { if (localStorage.getItem("tessel-motion") !== "off" &&
 </div></section>
 <section class="wrap unit">
   <div class="unitpic"><div class="cycle fade alive" data-every="2600"><img src="img/panel-ember.svg" alt="Tessel Ember, as it comes" class="on"><img src="img/panel-ember-p1.svg" alt="Tessel Ember, as it comes"><img src="img/panel-ember-p2.svg" alt="Tessel Ember, as it comes"><img src="img/panel-ember-p3.svg" alt="Tessel Ember, as it comes"></div>
-  <p class="small">As it comes: the standard panel, with the button names written on by hand. Click to see it larger.</p></div>
+  <p class="small">As it comes: the standard panel, with the button names written on by hand. Click to see it larger.
+  <a href="downloads/Tessel-Ember-button-names.pdf">The names to write on, to print (PDF)</a>.</p></div>
   <div class="unittext">
     <p class="lead">Ember is a warm, simple polysynth, with one oscillator per voice plus a sub and noise, a smooth filter, one envelope and a lush chorus that makes chords shimmer. It's quick to learn, and it's hard to make it sound bad.</p>
     <ul class="points"><li>Six voices: chords and pads</li><li>Saw, pulse with its own width, sub-oscillator and noise</li><li>A four-pole filter and a high-pass filter</li><li>Two kinds of chorus, alone or together</li><li>16 factory sounds; four banks of your own</li></ul>
@@ -44,7 +45,7 @@ try { if (localStorage.getItem("tessel-motion") !== "off" &&
 <script>
 // Click a unit's picture to see it filling the window; click again or press Esc to close.
 const box = document.getElementById("zoombox");
-document.querySelectorAll(".unitpic img, .fadepair img").forEach(img => img.addEventListener("click", () => {
+document.querySelectorAll(".unitpic img").forEach(img => img.addEventListener("click", () => {
   box.querySelector("img").src = img.src; box.querySelector("img").alt = img.alt; box.classList.add("open");
 }));
 box.addEventListener("click", () => box.classList.remove("open"));
@@ -83,6 +84,32 @@ if (root.classList.contains("motion")) {
     }, +stack.dataset.every || 2000);
   });
 }
+// The deluxe band's wipe: the range control lying over the picture sets where the bar is.
+document.querySelectorAll(".wipe").forEach(w => {
+  const input = w.querySelector("input");
+  const set = v => w.style.setProperty("--wipe", v + "%");
+  input.addEventListener("input", () => { hinted = true; set(input.value); });
+  // WIPE-HINT: once, the first time the picture is well in view, the bar slides this far in
+  // and back, so it's plain it can be moved (only with animations on, and not once touched)
+  const WIPE_HINT = 30;
+  let hinted = !root.classList.contains("motion");
+  function hint() {
+    if (hinted) return;
+    const r = w.getBoundingClientRect();
+    if (r.top > innerHeight * 0.6 || r.bottom < innerHeight * 0.4 || getComputedStyle(w.closest("section")).opacity < 0.9) return;
+    hinted = true;
+    const start = performance.now(), TIME = 1800;
+    (function step(now) {
+      if (input.dataset.touched) return;
+      const q = Math.min(1, (now - start) / TIME);
+      const v = q < 1 ? WIPE_HINT * Math.sin(Math.PI * q) : 0;
+      set(v); input.value = v;
+      if (q < 1) requestAnimationFrame(step);
+    })(start);
+  }
+  input.addEventListener("pointerdown", () => input.dataset.touched = 1);
+  addEventListener("scroll", hint, {passive: true}); setTimeout(hint, 1000);
+});
 // The home page's crossfade. The frame (.xf-box) stays pinned under the menu bar while its
 // stage scrolls past; inside it, every section lies at the top, and the scroll position sets
 // which one shows: a tall section first scrolls through its own content, then over the next

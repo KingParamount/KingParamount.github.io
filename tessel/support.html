@@ -25,7 +25,9 @@ try { if (localStorage.getItem("tessel-motion") !== "off" &&
     <tr><td>Quick Start</td><td><a href="downloads/Tessel-Quick-Start.pdf">The booklet from the box (PDF)</a></td></tr>
     <tr><td><i>Making Sounds</i></td><td><a href="downloads/Making-Sounds.pdf">The book on sound design (PDF)</a></td></tr>
     <tr><td><i>Making Music</i></td><td><a href="downloads/Making-Music.pdf">The book on writing tracks (PDF)</a></td></tr>
-    <tr><td>Button names</td><td><div class="placeholder" style="margin:0">Each unit's button names, to write on its white panel. Coming; until then, they're in the quick reference at the back of either book.</div></td></tr>
+    <tr><td>Button names</td><td>What to write on each unit's white panel, with the unit drawn life size to print and lay beside it (PDF, one A4 page each):
+      <br><a href="downloads/Tessel-Glass-button-names.pdf">Glass</a> &middot; <a href="downloads/Tessel-Volt-button-names.pdf">Volt</a> &middot; <a href="downloads/Tessel-Ember-button-names.pdf">Ember</a> &middot; <a href="downloads/Tessel-Axis-button-names.pdf">Axis</a> &middot; <a href="downloads/Tessel-Strike-button-names.pdf">Strike</a> &middot; <a href="downloads/Tessel-Taste-button-names.pdf">Taste</a> &middot; <a href="downloads/Tessel-Grit-button-names.pdf">Grit</a> &middot; <a href="downloads/Tessel-Haze-button-names.pdf">Haze</a> &middot; <a href="downloads/Tessel-Step-button-names.pdf">Step</a> &middot; <a href="downloads/Tessel-Pilot-button-names.pdf">Pilot</a><br>
+      <a href="downloads/Tessel-button-names.pdf">All ten in one file</a>.</td></tr>
   </table>
 
   <p class="small" style="margin-top:12px">You can also read all three books on the website: see <a href="learn.html">Learn</a>.</p>
@@ -60,7 +62,7 @@ try { if (localStorage.getItem("tessel-motion") !== "off" &&
 <script>
 // Click a unit's picture to see it filling the window; click again or press Esc to close.
 const box = document.getElementById("zoombox");
-document.querySelectorAll(".unitpic img, .fadepair img").forEach(img => img.addEventListener("click", () => {
+document.querySelectorAll(".unitpic img").forEach(img => img.addEventListener("click", () => {
   box.querySelector("img").src = img.src; box.querySelector("img").alt = img.alt; box.classList.add("open");
 }));
 box.addEventListener("click", () => box.classList.remove("open"));
@@ -99,6 +101,32 @@ if (root.classList.contains("motion")) {
     }, +stack.dataset.every || 2000);
   });
 }
+// The deluxe band's wipe: the range control lying over the picture sets where the bar is.
+document.querySelectorAll(".wipe").forEach(w => {
+  const input = w.querySelector("input");
+  const set = v => w.style.setProperty("--wipe", v + "%");
+  input.addEventListener("input", () => { hinted = true; set(input.value); });
+  // WIPE-HINT: once, the first time the picture is well in view, the bar slides this far in
+  // and back, so it's plain it can be moved (only with animations on, and not once touched)
+  const WIPE_HINT = 30;
+  let hinted = !root.classList.contains("motion");
+  function hint() {
+    if (hinted) return;
+    const r = w.getBoundingClientRect();
+    if (r.top > innerHeight * 0.6 || r.bottom < innerHeight * 0.4 || getComputedStyle(w.closest("section")).opacity < 0.9) return;
+    hinted = true;
+    const start = performance.now(), TIME = 1800;
+    (function step(now) {
+      if (input.dataset.touched) return;
+      const q = Math.min(1, (now - start) / TIME);
+      const v = q < 1 ? WIPE_HINT * Math.sin(Math.PI * q) : 0;
+      set(v); input.value = v;
+      if (q < 1) requestAnimationFrame(step);
+    })(start);
+  }
+  input.addEventListener("pointerdown", () => input.dataset.touched = 1);
+  addEventListener("scroll", hint, {passive: true}); setTimeout(hint, 1000);
+});
 // The home page's crossfade. The frame (.xf-box) stays pinned under the menu bar while its
 // stage scrolls past; inside it, every section lies at the top, and the scroll position sets
 // which one shows: a tall section first scrolls through its own content, then over the next

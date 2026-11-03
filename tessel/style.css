@@ -81,21 +81,25 @@ footer .small{color:#8d8f98}
 .cycle-caption > span{grid-area:1/1;opacity:0;transition:opacity var(--fade-time) ease-in-out}
 .cycle-caption > span.on{opacity:1}
 .cycle-caption b{display:block;font-size:1.2rem}
-/* the deluxe band: plain panels slowly becoming printed ones and back (PANEL-SWAP: one whole
-   round, plain and back). Without animations, the printed row shows. */
-:root{--panel-swap:12s}
-.fadepair{position:relative;max-width:1400px}
-.fadepair img{display:block;width:100%}
-.fadepair img.top{position:absolute;inset:0}
-.fadepair-label{text-align:center;font-family:"Space Grotesk",sans-serif;margin-top:12px;position:relative;height:1.6em}
-.fadepair-label span{position:absolute;left:0;right:0}
-.fadepair-label .plain{opacity:0}
-.motion .fadepair-label .plain{opacity:1}
-.motion .fadepair img.top{animation:swap var(--panel-swap) ease-in-out infinite}
-.motion .fadepair-label .printed{animation:swap var(--panel-swap) ease-in-out infinite}
-.motion .fadepair-label .plain{animation:swap-off var(--panel-swap) ease-in-out infinite}
-@keyframes swap{0%,38%{opacity:0}50%,88%{opacity:1}100%{opacity:0}}
-@keyframes swap-off{0%,38%{opacity:1}50%,88%{opacity:0}100%{opacity:1}}
+/* the deluxe band (owner, 3 Nov 2026): a wipe. The deluxe row lies over the standard one, cut
+   away left of the bar; drag the bar (or anywhere on the picture) to wipe between them. It starts
+   with the bar at the left edge, so the deluxe row shows first; WIPE-HINT nudges it once when it
+   comes into view, to show it moves. */
+.wipe{position:relative;max-width:1400px;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.wipe img{display:block;width:100%;pointer-events:none}
+.wipe img.deluxe{position:absolute;inset:0;clip-path:inset(0 0 0 var(--wipe))}
+.wipe-bar{position:absolute;top:0;bottom:0;left:var(--wipe);width:3px;margin-left:-1.5px;background:var(--white);
+  box-shadow:0 0 6px rgba(0,0,0,.6);pointer-events:none;z-index:2}
+.wipe-grip{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;
+  background:var(--charcoal);color:var(--white);border:3px solid var(--white);box-sizing:border-box;display:flex;align-items:center;justify-content:center;
+  font-size:11px;letter-spacing:-1px;box-shadow:0 2px 8px rgba(0,0,0,.5)}
+.wipe input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;z-index:3;cursor:ew-resize;-webkit-appearance:none;appearance:none}
+.wipe input::-webkit-slider-thumb{-webkit-appearance:none;width:44px;height:400px}
+.wipe input::-moz-range-thumb{width:44px;height:400px;border:0}
+.wipe-label{display:flex;justify-content:space-between;gap:12px;font-family:"Space Grotesk",sans-serif;margin-top:12px}
+.wipe-label span:nth-child(2){opacity:.6}
+.wipe-label span:last-child{text-align:right}
+@media (max-width:640px){.wipe-label span:nth-child(2){display:none}}
 
 /* the home page's crossfade (owner, 2 Nov 2026): the sections after the opening sit in a frame
    pinned under the menu bar, and each dissolves into the next as you scroll; the page still
